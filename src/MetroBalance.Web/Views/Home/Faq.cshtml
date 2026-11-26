@@ -40,7 +40,8 @@
                         </h2>
                         <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                The number is printed on the front of your card and on your transaction receipt. In this demo you can
+                                The number is printed on the front of your card (the 12-digit number shown in groups like
+                                <code>8177 7696 0017 5160</code>) and also on your transaction receipt. In this demo you can
                                 use any of the sample numbers listed on the homepage, for example
                                 <code>DMRC-DEMO-1001</code>. Numbers are matched case-insensitively and spaces are ignored.
                             </div>
@@ -70,10 +71,10 @@
                         </h2>
                         <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Recharge history lists the top-ups credited to the card &mdash; amount, channel (app, internet
-                                banking, ATM, counter) and the mode used, along with the resulting balance. Journey transactions
-                                list the fare deductions applied at the gates, showing the entry and exit stations, the metro line,
-                                the fare slab and the balance left after each trip.
+                                <strong>Recharge history</strong> means every time you added money to the card &mdash; the amount,
+                                the date, where you added it (app, internet banking, ATM, counter) and the balance you had after.
+                                <strong>Journey transactions</strong> means every trip you made &mdash; the station you entered
+                                from, the station you got off at, the metro line and the fare that was taken out of the card.
                             </div>
                         </div>
                     </div>
@@ -211,9 +212,9 @@
                         </h2>
                         <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Use the <strong>Balance only</strong> / <strong>Full statement</strong> switch above the card
-                                number box on the homepage or on the Check Balance page. <em>Balance only</em> returns a single
-                                card showing the available amount in rupees and the last balance update &mdash; no recharge list
+                                Use the <strong>Just the balance</strong> / <strong>Balance + history</strong> switch above the card
+                                number box on the homepage or on the Check Balance page. <em>Just the balance</em> returns a single
+                                card showing the money left on your card in rupees and the last balance update &mdash; no recharge list
                                 and no journey table. The same data is available directly from the API at
                                 <code>GET /api/cards/{cardNumber}/amount</code>.
                                 For a demo card the amount comes from the simulated dataset and is labelled
@@ -232,10 +233,12 @@
                     <dl class="row mb-0 small">
                         <dt class="col-5 text-muted fw-semibold">Login needed?</dt>
                         <dd class="col-7">No</dd>
-                        <dt class="col-5 text-muted fw-semibold">Database?</dt>
-                        <dd class="col-7">None &mdash; in-memory only</dd>
+                        <dt class="col-5 text-muted fw-semibold">App needed?</dt>
+                        <dd class="col-7">No &mdash; works in any browser</dd>
                         <dt class="col-5 text-muted fw-semibold">Cost</dt>
                         <dd class="col-7">Free</dd>
+                        <dt class="col-5 text-muted fw-semibold">Database?</dt>
+                        <dd class="col-7">None &mdash; in-memory only</dd>
                         <dt class="col-5 text-muted fw-semibold">Currency</dt>
                         <dd class="col-7">INR (&#8377;)</dd>
                         <dt class="col-5 text-muted fw-semibold">Data</dt>

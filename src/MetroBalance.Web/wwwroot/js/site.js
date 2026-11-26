@@ -49,7 +49,7 @@
         if (text) {
             text.textContent = isLoading
                 ? "Checking..."
-                : (lookupMode === "amount" ? "Check balance" : "Show full statement");
+                : (lookupMode === "amount" ? "Check balance" : "Show balance + history");
         }
     }
 
@@ -66,7 +66,7 @@
 
         const text = $("lookupButtonText");
         if (text) {
-            text.textContent = lookupMode === "amount" ? "Check balance" : "Show full statement";
+            text.textContent = lookupMode === "amount" ? "Check balance" : "Show balance + history";
         }
 
         // Switching modes clears the previous answer so no stale figure stays on screen.
@@ -137,10 +137,10 @@
         const items = recharges.map(function (r) {
             return '<li class="timeline__item">' +
                 '<span class="timeline__dot timeline__dot--green"></span>' +
-                '<div class="timeline__title">' + escapeHtml(r.amountFormatted) +
+                '<div class="timeline__title">Added ' + escapeHtml(r.amountFormatted) +
                 ' <span class="small text-muted">via ' + escapeHtml(r.channel) + '</span></div>' +
                 '<div class="timeline__meta">' + escapeHtml(r.timestampFormatted) + ' &middot; ' + escapeHtml(r.mode) +
-                ' &middot; Balance ' + escapeHtml(r.balanceAfterFormatted) + '</div>' +
+                ' &middot; money left after this: ' + escapeHtml(r.balanceAfterFormatted) + '</div>' +
                 '</li>';
         }).join("");
 
@@ -241,8 +241,10 @@
             if (staleUpdated) staleUpdated.textContent = "—";
 
             if (unavailable) {
-                unavailable.textContent = (result && (result.policyNote || result.message)) ||
-                    "DMRC does not publish an online card balance service, so this balance cannot be read over the internet.";
+                var note = (result && (result.policyNote || result.message)) ||
+                    "DMRC does not offer an online card balance service, so this card cannot be read over the internet.";
+                unavailable.innerHTML = escapeHtml(note) +
+                    ' <a class="fw-semibold" href="/Card?mode=guide">See how to read your balance at the station</a>.';
                 unavailable.classList.remove("d-none");
             }
         }

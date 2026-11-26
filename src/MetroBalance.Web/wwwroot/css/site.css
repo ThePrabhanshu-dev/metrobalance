@@ -751,6 +751,171 @@ body {
     margin-top: .2rem;
 }
 
+/* ---------------- Plain-language helpers ---------------- */
+.section--soft {
+    background: linear-gradient(180deg, #eef4ff 0%, #f7f9fd 100%);
+    border-top: 1px solid var(--mb-line);
+    border-bottom: 1px solid var(--mb-line);
+}
+
+.benefit-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.benefit-item {
+    display: flex;
+    gap: .9rem;
+    align-items: flex-start;
+}
+
+.benefit-item__icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: rgba(13, 110, 253, .1);
+    color: var(--mb-blue);
+}
+
+.benefit-item__title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: .15rem;
+}
+
+.benefit-item__text {
+    color: var(--mb-muted);
+    font-size: .93rem;
+    margin: 0;
+}
+
+.benefit-item__text strong { color: var(--mb-ink); }
+
+.plain-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.plain-table th,
+.plain-table td {
+    text-align: left;
+    padding: .85rem 1rem;
+    border-bottom: 1px solid var(--mb-line);
+    vertical-align: top;
+}
+
+.plain-table th {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--mb-muted);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.plain-table td { font-size: .95rem; }
+
+.plain-table tr:last-child th,
+.plain-table tr:last-child td { border-bottom: 0; }
+
+.plain-table__term { font-weight: 700; white-space: nowrap; }
+.plain-table__meaning { color: var(--mb-muted); }
+
+.howto {
+    border: 1px dashed #bfdbfe;
+    background: #f5f9ff;
+    border-radius: 14px;
+    padding: .85rem 1rem;
+}
+
+.howto summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--mb-blue);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.howto summary::-webkit-details-marker { display: none; }
+
+.howto summary::before {
+    content: "?";
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--mb-blue);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 700;
+    flex: 0 0 auto;
+}
+
+.howto[open] summary { margin-bottom: .75rem; }
+
+.howto__body {
+    font-size: .92rem;
+    color: var(--mb-ink);
+}
+
+.howto__body ol {
+    margin: 0 0 .6rem;
+    padding-left: 1.15rem;
+}
+
+.howto__body li { margin-bottom: .35rem; }
+
+.howto__body p { margin: 0; }
+
+.help-note {
+    display: flex;
+    align-items: flex-start;
+    gap: .55rem;
+    font-size: .88rem;
+    color: var(--mb-muted);
+}
+
+.help-note svg { flex: 0 0 auto; margin-top: .15rem; color: var(--mb-green); }
+
+.plain-meaning {
+    font-size: .9rem;
+    color: var(--mb-muted);
+    margin: .35rem 0 0;
+}
+
+.checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: .55rem;
+}
+
+.checklist li {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+    font-size: .94rem;
+}
+
+.checklist li::before {
+    content: "\2713";
+    color: var(--mb-green);
+    font-weight: 700;
+    line-height: 1.35;
+}
+
 /* ---------------- Responsive ---------------- */
 @media (max-width: 991.98px) {
     .hero { padding: 3.5rem 0 4.5rem; }

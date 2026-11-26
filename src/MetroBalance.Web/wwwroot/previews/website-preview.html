@@ -79,7 +79,7 @@
   <div class="wrap">
     <span class="eyebrow">Website Preview · for DMRC &amp; stakeholders</span>
     <h1>MetroBalance <span class="grad">— how the website looks and works</span></h1>
-    <p>Real screen captures of the working MetroBalance application: the home page, the Smart Card balance enquiry, the balance-only view, the real-card guidance, FAQ, About, the Swagger API documentation, the in-app presentation, and the mobile layouts — all taken from the running build.</p>
+    <p>Real screen captures of the working MetroBalance application: the home page (with the rider-benefits section and the plain-English glossary), the Smart Card balance enquiry, the “just the balance” view, the real-card guidance, FAQ, About, the Swagger API documentation, the in-app presentation, and the mobile layouts — all taken from the running build.</p>
     <div class="kpis">
       <div class="kpi"><div class="k">12</div><div class="l">Real screen captures</div></div>
       <div class="kpi"><div class="k">7</div><div class="l">Public pages</div></div>
@@ -116,7 +116,7 @@
       <span class="shot__url">/ — Home</span></div>
     <div class="shot__body">
       <h3>Home — the landing page</h3>
-      <p>Premium hero with the Smart Card number input placed above the fold, one-tap access to the demo card numbers, and the three headline capabilities (balance in INR, recharge history, journey transactions). Every page carries a permanent <strong>DEMO DATA</strong> ribbon so a simulated balance can never be mistaken for a live one.</p>
+      <p>Premium hero written in everyday words — <em>“how much money is left on the card, every top-up you made and every trip the fare was deducted from”</em> — with the Smart Card number input above the fold, one-tap access to the demo card numbers, a “Where do I find my Smart Card number?” helper, and a <strong>Why this is useful to you</strong> section that spells out the rider benefits (no queue at the AVM, know before you travel, every top-up in one list, works in any browser, private and free) next to a plain-English glossary. Every page carries a permanent <strong>DEMO DATA</strong> ribbon so a simulated balance can never be mistaken for a live one.</p>
       <img src="screenshots/01-home.jpg" alt="MetroBalance home page" loading="lazy" />
     </div>
   </div>
@@ -125,18 +125,18 @@
     <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
       <span class="shot__url">/Card?cardNumber=DMRC-DEMO-1001 — Card enquiry result</span></div>
     <div class="shot__body">
-      <h3>Card enquiry — full statement</h3>
-      <p>The core screen. After a card number is submitted the page shows the available balance in Indian Rupees, the card holder summary (holder, card type, status, total recharged, issued-on date) and the <strong>last balance update</strong> timestamp. Below it are the <strong>recharge history</strong> (amount, channel, date, running balance) and the <strong>journey transaction history</strong> (date &amp; time, from → to station, line, fare).</p>
+      <h3>Card enquiry — balance + history</h3>
+      <p>The core screen. After a card number is submitted the page shows <strong>how much money is left on the card</strong> in Indian Rupees, the card summary (holder, card type, status, total money added, issued-on date), the <strong>last balance update</strong> timestamp and a “What this means for you” panel that explains the numbers in plain language. Below it are <strong>every time you added money</strong> (amount, channel, date, money left after each top-up) and <strong>every trip and what it cost</strong> (date &amp; time, from → to station, line, fare).</p>
       <img src="screenshots/02-card-enquiry-result.jpg" alt="Card enquiry result with balance, recharge history and journey transactions" loading="lazy" />
     </div>
   </div>
 
   <div class="shot">
     <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="shot__url">/Card?cardNumber=DMRC-DEMO-1001&amp;mode=amount — Balance only</span></div>
+      <span class="shot__url">/Card?cardNumber=DMRC-DEMO-1001&amp;mode=amount — Just the balance</span></div>
     <div class="shot__body">
-      <h3>Balance-only mode</h3>
-      <p>A single-screen view for riders who only want the amount: one large balance figure, the card number and the last-update stamp. This is the lightest possible page to load on a phone at a gate and it is also available as the standalone API endpoint <code>/api/cards/{cardNumber}/amount</code>.</p>
+      <h3>Just the balance</h3>
+      <p>A single-screen view for riders who only want the amount: one large figure, the card number and the last-update stamp, with the line “This is the money still in your card for travel.” This is the lightest possible page to load on a phone at a gate and it is also available as the standalone API endpoint <code>/api/cards/{cardNumber}/amount</code>.</p>
       <img src="screenshots/03-balance-only.jpg" alt="Balance only view" loading="lazy" />
     </div>
   </div>
@@ -156,7 +156,7 @@
       <span class="shot__url">/Home/Faq — FAQ</span></div>
     <div class="shot__body">
       <h3>FAQ</h3>
-      <p>Answers the questions riders and reviewers actually ask: is the balance live, is an account needed, is the data stored, what happens with a wrong card number, and how a future DMRC integration would work.</p>
+      <p>Answers the questions riders and reviewers actually ask in everyday words: where to find your card number, is the balance live, is an account needed, is the data stored, what “recharge” and “journey transaction” mean, what happens with a wrong card number, and how a future DMRC integration would work.</p>
       <img src="screenshots/05-faq.jpg" alt="Frequently asked questions page" loading="lazy" />
     </div>
   </div>
@@ -176,7 +176,7 @@
       <span class="shot__url">/guide — Real card guide</span></div>
     <div class="shot__body">
       <h3>Real card guide</h3>
-      <p>A dedicated page for riders holding a physical card: how to find the Engraved ID, how to top up officially, and where to check the balance offline. This is the page DMRC can publish unchanged as a help article.</p>
+      <p>A dedicated page for riders holding a physical card: a “Save time at the station” checklist, how to find the Engraved ID vs the 12-digit front number, how to top up officially, and where to check the balance offline. This is the page DMRC can publish unchanged as a help article.</p>
       <img src="screenshots/07-guide.jpg" alt="Real card guide page" loading="lazy" />
     </div>
   </div>
@@ -200,6 +200,8 @@
     <tbody>
       <tr><td>Modern, premium, responsive homepage</td><td><code>/</code></td><td>Screenshot 01 + mobile 10</td></tr>
       <tr><td>Smart Card number input</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
+      <tr><td>“Where do I find my card number?” helper</td><td><code>/</code>, <code>/Card</code></td><td>Screenshots 01, 02</td></tr>
+      <tr><td>Rider benefits &amp; plain-English glossary</td><td><code>/</code></td><td>Screenshot 01</td></tr>
       <tr><td>Check card balance</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
       <tr><td>Balance displayed in Indian Rupees</td><td><code>/Card</code>, <code>/Card?mode=amount</code></td><td>Screenshots 02, 03</td></tr>
       <tr><td>Recharge history</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>

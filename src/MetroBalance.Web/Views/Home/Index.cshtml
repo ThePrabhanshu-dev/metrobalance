@@ -16,26 +16,33 @@
                     Check your <span class="highlight">Delhi Metro</span> Smart Card balance in seconds.
                 </h1>
                 <p class="hero__lead mb-0">
-                    Enter your Smart Card number to see the available balance, recharge history and every
-                    journey fare deduction &mdash; all in Indian Rupees, on any phone or desktop.
+                    Type your Smart Card number and instantly see <strong>how much money is left on the card</strong>,
+                    <strong>every top-up you made</strong> and <strong>every trip the fare was deducted from</strong>
+                    &mdash; in rupees, on your phone, without a login.
                 </p>
+
+                <ul class="checklist mt-4">
+                    <li>Know what you have before you travel &mdash; no queue at the Add Value Machine.</li>
+                    <li>See every recharge and every fare deduction, so nothing looks like a mystery.</li>
+                    <li>Free, private and instant &mdash; no app, no sign-up, no card details stored.</li>
+                </ul>
 
                 <div class="hero__stats">
                     <div>
                         <div class="hero__stat-value">&#8377;</div>
-                        <div class="hero__stat-label">Live INR balance</div>
+                        <div class="hero__stat-label">Money left on card</div>
                     </div>
                     <div>
                         <div class="hero__stat-value">6</div>
-                        <div class="hero__stat-label">Metro lines</div>
+                        <div class="hero__stat-label">Metro lines covered</div>
                     </div>
                     <div>
                         <div class="hero__stat-value">24/7</div>
-                        <div class="hero__stat-label">Always available</div>
+                        <div class="hero__stat-label">Works any time</div>
                     </div>
                     <div>
                         <div class="hero__stat-value">0</div>
-                        <div class="hero__stat-label">Login required</div>
+                        <div class="hero__stat-label">Forms to fill in</div>
                     </div>
                 </div>
             </div>
@@ -53,7 +60,7 @@
                             <div style="font-weight:600;">Silver</div>
                         </div>
                     </div>
-                    <div class="hero-visual__label mb-1">Available balance</div>
+                    <div class="hero-visual__label mb-1">Money left on the card</div>
                     <div class="hero-visual__amount">&#8377; 425.50</div>
                     <div class="hero-visual__row mt-3">
                         <span>Last journey</span>
@@ -80,25 +87,49 @@
 <section class="section section--tight">
     <div class="container">
         <div class="lookup-card mx-auto" style="max-width: 980px;">
-            <h2 class="h4 fw-bold mb-1">Check your Smart Card balance</h2>
-            <p class="text-muted mb-4">Enter the card number printed on your DMRC Smart Card. No login or registration is required.</p>
+            <h2 class="h4 fw-bold mb-1">How much money is left on your card?</h2>
+            <p class="text-muted mb-4">
+                Enter the number printed on your Smart Card. Nothing else is needed &mdash; no login, no registration,
+                no payment.
+            </p>
 
             <div class="mode-switch" role="group" aria-label="What would you like to see?">
                 <button type="button" class="mode-switch__btn is-active" id="modeAmount" data-mode="amount" aria-pressed="true">
-                    Balance only
+                    Just the balance
                 </button>
                 <button type="button" class="mode-switch__btn" id="modeStatement" data-mode="statement" aria-pressed="false">
-                    Full statement
+                    Balance + history
                 </button>
             </div>
+            <p class="small text-muted mb-4">
+                <strong>Just the balance</strong> shows one number: the money left on your card.
+                <strong>Balance + history</strong> also shows every recharge and every journey fare.
+            </p>
+
+            <details class="howto mb-4">
+                <summary>Where do I find my Smart Card number?</summary>
+                <div class="howto__body">
+                    <ol>
+                        <li>Look at the front of your card &mdash; the number is printed on it.</li>
+                        <li>Use the 12-digit number printed on the card (it may be shown in groups like <code>8177 7696 0017</code>).</li>
+                        <li>Type it below. Spaces are fine, we ignore them.</li>
+                    </ol>
+                    <p class="mb-0">
+                        Lost card or damaged number? <a asp-controller="Card" asp-action="Index" asp-route-mode="guide">See how to read a real card balance</a>.
+                    </p>
+                </div>
+            </details>
 
             <form id="cardLookupForm" novalidate>
                 <div class="row g-3 align-items-end">
                     <div class="col-lg-7">
                         <label class="form-label fw-semibold" for="cardNumberInput">Smart Card number</label>
                         <input type="text" class="form-control lookup-input" id="cardNumberInput" name="cardNumber"
-                               placeholder="e.g. DMRC-DEMO-1001" autocomplete="off" spellcheck="false" maxlength="25" />
-                        <div class="form-text">Demo cards are listed below &mdash; try one to see the full flow. Real card numbers are accepted too.</div>
+                               placeholder="e.g. 8177 7696 0017 5160" autocomplete="off" spellcheck="false" maxlength="25" />
+                        <div class="form-text">
+                            Type the number and press <strong>Check balance</strong>. Demo cards are listed below &mdash;
+                            pick one to try the full flow.
+                        </div>
                     </div>
                     <div class="col-lg-5">
                         <button type="submit" class="btn btn-mb-primary w-100" id="cardLookupButton">
@@ -110,10 +141,17 @@
             </form>
 
             <div class="mt-4">
-                <div class="small text-uppercase fw-bold text-muted mb-2" style="letter-spacing:.08em;">Demo card numbers</div>
+                <div class="small text-uppercase fw-bold text-muted mb-2" style="letter-spacing:.08em;">Try a demo card</div>
                 <div class="d-flex flex-wrap gap-2" id="demoCardChips">
                     <span class="text-muted small">Loading demo cards&hellip;</span>
                 </div>
+            </div>
+
+            <div class="help-note mt-4">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"></path>
+                </svg>
+                <span>Your card number is only used to answer your query &mdash; it is not stored, not shared and not sold.</span>
             </div>
 
             <div id="lookupAlert" class="alert-mb mt-4 d-none"></div>
@@ -129,9 +167,10 @@
                     <div class="position-relative" style="z-index:2;">
                         <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
                             <div>
-                                <div class="hero-visual__label">Available balance &mdash; DEMO DATA</div>
+                                <div class="hero-visual__label">Money left on your card &mdash; DEMO DATA</div>
                                 <div class="balance-amount" id="amountValue">&mdash;</div>
                                 <div class="opacity-75" id="amountMeta">Card number</div>
+                                <p class="plain-meaning mb-0">This is the money still in your card for travel.</p>
                             </div>
                             <div class="text-md-end">
                                 <span class="badge-demo">Demo Data</span>
@@ -142,12 +181,13 @@
                 </div>
 
                 <div class="alert-mb alert-mb--info mt-4 d-none" id="amountUnavailable">
-                    DMRC does not publish an online card balance service, so this balance cannot be read over the internet.
+                    This card cannot be read online &mdash; DMRC does not offer an internet balance service yet.
+                    <a class="fw-semibold" href="#guidanceSection">See how to check your balance at the station</a>.
                 </div>
 
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-mb-outline" id="amountFullStatementButton">
-                        View full statement
+                        Also show recharge &amp; journey history
                     </button>
                 </div>
             </div>
@@ -163,9 +203,10 @@
                     <div class="position-relative" style="z-index:2;">
                         <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
                             <div>
-                                <div class="hero-visual__label">Available balance &mdash; DEMO DATA</div>
+                                <div class="hero-visual__label">Money left on your card &mdash; DEMO DATA</div>
                                 <div class="balance-amount" id="balanceAmount">&#8377; 0.00</div>
                                 <div class="opacity-75" id="balanceCardMeta">Card number</div>
+                                <p class="plain-meaning mb-0">This is the money still in your card for travel.</p>
                             </div>
                             <div class="text-md-end">
                                 <span class="badge-demo">Demo Data</span>
@@ -175,7 +216,7 @@
 
                         <div class="row g-3 mt-4">
                             <div class="col-6 col-md-3">
-                                <div class="hero-visual__label">Holder</div>
+                                <div class="hero-visual__label">Card holder</div>
                                 <div class="fw-semibold" id="balanceHolder">&mdash;</div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -183,14 +224,17 @@
                                 <div class="fw-semibold" id="balanceCardType">&mdash;</div>
                             </div>
                             <div class="col-6 col-md-3">
-                                <div class="hero-visual__label">Status</div>
+                                <div class="hero-visual__label">Card status</div>
                                 <div class="fw-semibold" id="balanceStatus">&mdash;</div>
                             </div>
                             <div class="col-6 col-md-3">
-                                <div class="hero-visual__label">Total recharged</div>
+                                <div class="hero-visual__label">Total money added</div>
                                 <div class="fw-semibold" id="balanceTotalRecharged">&mdash;</div>
                             </div>
                         </div>
+                        <p class="plain-meaning mt-3 mb-0">
+                            <strong>Total money added</strong> is everything you have topped up since the card was issued.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -198,8 +242,8 @@
             <div class="col-lg-5">
                 <div class="panel panel--raised h-100">
                     <div class="p-4 border-bottom">
-                        <h3 class="h6 fw-bold mb-1">Recharge history</h3>
-                        <p class="small text-muted mb-0">Top-ups credited to the card</p>
+                        <h3 class="h6 fw-bold mb-1">Every time you added money</h3>
+                        <p class="small text-muted mb-0">All your top-ups, with amount and date</p>
                     </div>
                     <div class="p-3" id="rechargeList"></div>
                 </div>
@@ -209,8 +253,8 @@
                 <div class="panel panel--raised h-100">
                     <div class="p-4 border-bottom d-flex justify-content-between align-items-center gap-2">
                         <div>
-                            <h3 class="h6 fw-bold mb-1">Journey transactions</h3>
-                            <p class="small text-muted mb-0">Fare deductions at the gates</p>
+                            <h3 class="h6 fw-bold mb-1">Every trip and what it cost</h3>
+                            <p class="small text-muted mb-0">From which station to which, and the fare taken</p>
                         </div>
                         <span class="meta-pill" id="journeyCountLabel">0 journeys</span>
                     </div>
@@ -271,9 +315,9 @@
 <section class="section">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title h3">Everything you need in one place</h2>
+            <h2 class="section-title h3">Everything you need, on one screen</h2>
             <p class="section-subtitle mx-auto mt-2">
-                A complete Smart Card view &mdash; balance, top-ups and every fare deduction, rendered in Indian Rupees.
+                Your money left, your top-ups and your trips &mdash; shown in rupees, in the order you need them.
             </p>
         </div>
 
@@ -285,8 +329,8 @@
                             <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>
                         </svg>
                     </span>
-                    <h3>Instant balance</h3>
-                    <p>See the exact rupee balance available on your card, including the last time it was updated.</p>
+                    <h3>Money left on your card</h3>
+                    <p>The exact rupees available right now, plus when this information was last refreshed.</p>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
@@ -296,8 +340,8 @@
                             <path d="M3 7h18v12H3z"></path><path d="M3 11h18"></path><path d="M7 15h4"></path>
                         </svg>
                     </span>
-                    <h3>Recharge history</h3>
-                    <p>Track every top-up with the amount, channel, mode and the balance it produced.</p>
+                    <h3>Every recharge you made</h3>
+                    <p>Each top-up with its amount, date and where you added it.</p>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
@@ -307,8 +351,8 @@
                             <path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"></path><path d="M8 13h8M8 17h5"></path>
                         </svg>
                     </span>
-                    <h3>Journey log</h3>
-                    <p>From station, to station, line and fare slab for each journey made on the card.</p>
+                    <h3>Every journey and its fare</h3>
+                    <p>From station to station, which line, and how much was deducted.</p>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
@@ -318,8 +362,144 @@
                             <rect x="5" y="2" width="14" height="20" rx="3"></rect><path d="M11 18h2"></path>
                         </svg>
                     </span>
-                    <h3>Mobile first</h3>
-                    <p>A fully responsive interface that works beautifully on any phone, tablet or desktop.</p>
+                    <h3>Works on any phone</h3>
+                    <p>A simple, responsive screen that loads fast on any phone, tablet or laptop.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title h3">Why this is useful to you</h2>
+            <p class="section-subtitle mx-auto mt-2">
+                MetroBalance answers the questions riders actually ask &mdash; in everyday words, before you reach the gate.
+            </p>
+        </div>
+
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-7">
+                <ul class="benefit-list">
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">No queue at the Add Value Machine</div>
+                            <p class="benefit-item__text">
+                                Check how much money is left <strong>before</strong> you travel, instead of finding out at the gate.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"></path><path d="M9 13h6"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">Know if the balance is enough</div>
+                            <p class="benefit-item__text">
+                                See the amount first, then decide if the trip or the recharge is needed &mdash; no mid-journey surprises.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 7h18v12H3z"></path><path d="M3 11h18"></path><path d="M7 15h4"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">Every top-up in one list</div>
+                            <p class="benefit-item__text">
+                                See each recharge with its date and amount, so it is clear <strong>when and how much</strong> you added money.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 16V6a2 2 0 012-2h6l6 6v6a2 2 0 01-2 2H6a2 2 0 01-2-2z"></path><path d="M9 12h6"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">Every journey and its fare</div>
+                            <p class="benefit-item__text">
+                                From which station to which, on which line, and how much was deducted &mdash; useful if a fare looks wrong.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="3"></rect><path d="M11 18h2"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">Works on the phone in your pocket</div>
+                            <p class="benefit-item__text">
+                                Open the link, type the number, done. <strong>No app, no sign-up, no forms</strong> &mdash; free forever.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-item__icon">
+                            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"></path>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="benefit-item__title">Private and free</div>
+                            <p class="benefit-item__text">
+                                Your card number is used only to answer your query. It is never stored, and no paid service is involved.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="panel panel--raised p-4 h-100">
+                    <h3 class="h6 fw-bold mb-1">What the words on this page mean</h3>
+                    <p class="small text-muted mb-3">Simple translations &mdash; no jargon.</p>
+                    <table class="plain-table">
+                        <tbody>
+                            <tr>
+                                <th class="plain-table__term">Available balance</th>
+                                <td class="plain-table__meaning">The money left on your card, ready to travel.</td>
+                            </tr>
+                            <tr>
+                                <th class="plain-table__term">Recharge history</th>
+                                <td class="plain-table__meaning">Every time you added money, with date and amount.</td>
+                            </tr>
+                            <tr>
+                                <th class="plain-table__term">Journey transactions</th>
+                                <td class="plain-table__meaning">Every trip you made and the fare taken for it.</td>
+                            </tr>
+                            <tr>
+                                <th class="plain-table__term">Last updated</th>
+                                <td class="plain-table__meaning">When this information was last refreshed.</td>
+                            </tr>
+                            <tr>
+                                <th class="plain-table__term">Card status</th>
+                                <td class="plain-table__meaning">Whether the card is active and usable.</td>
+                            </tr>
+                            <tr>
+                                <th class="plain-table__term">Total recharged</th>
+                                <td class="plain-table__meaning">All the money you have added since the card was issued.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="small text-muted mt-3 mb-0">
+                        <span class="badge-demo">Demo Data</span>
+                        Figures on this site are simulated for the demonstration. They are never presented as a real
+                        card balance &mdash; DMRC does not offer an online balance service today.
+                    </p>
                 </div>
             </div>
         </div>
@@ -333,8 +513,7 @@
                 <div class="col-lg-5">
                     <h2 class="h3 fw-bold mb-3">How it works</h2>
                     <p class="text-muted mb-4">
-                        MetroBalance is a demonstration application built on ASP.NET Core MVC and Web API with a
-                        clean, provider-based architecture that can be pointed at an authorised DMRC service later.
+                        Three steps, about ten seconds, and you know exactly where you stand with your card.
                     </p>
                     <a class="btn btn-mb-primary" asp-controller="Home" asp-action="About">Learn about the architecture</a>
                 </div>
@@ -343,22 +522,22 @@
                         <div class="step">
                             <span class="step__num">1</span>
                             <div>
-                                <div class="fw-semibold">Enter the card number</div>
-                                <div class="text-muted small">Type the number printed on your Smart Card into the search box above.</div>
+                                <div class="fw-semibold">Type your card number</div>
+                                <div class="text-muted small">Use the number printed on the front of your Smart Card. No login needed.</div>
                             </div>
                         </div>
                         <div class="step">
                             <span class="step__num">2</span>
                             <div>
-                                <div class="fw-semibold">We validate and look it up</div>
-                                <div class="text-muted small">The card number is validated, then passed to the card provider implementation.</div>
+                                <div class="fw-semibold">We look it up safely</div>
+                                <div class="text-muted small">The number is checked for errors and sent to the card provider for the answer.</div>
                             </div>
                         </div>
                         <div class="step">
                             <span class="step__num">3</span>
                             <div>
-                                <div class="fw-semibold">Get your balance and history</div>
-                                <div class="text-muted small">Balance, recharge history and journey transactions are returned in Indian Rupees.</div>
+                                <div class="fw-semibold">See your money and your trips</div>
+                                <div class="text-muted small">Balance, every recharge and every journey fare &mdash; all shown in rupees.</div>
                             </div>
                         </div>
                     </div>
