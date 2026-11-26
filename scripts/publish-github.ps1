@@ -49,12 +49,33 @@ try {
     $remoteUrl = "https://github.com/$user/$RepoName.git"
 
     # 1. create the repository if needed
-    $exists = gh repo view $RepoName 2>$null
-    if ($LASTEXITCODE -ne 0) {
+    $repoExists = $false
+    $prevErrPref = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & gh api "repos/$user/$RepoName" --silent 2>&1 | Out-Null
+    if ($LASTEXITCODE -eq 0) { $repoExists = $true }
+    $ErrorActionPreference = $prevErrPref
+
+    if (-not $repoExists) {
         Write-Host "Creating repository '$RepoName' ($Visibility)..." -ForegroundColor Cyan
-        gh repo create $RepoName --public --description $Description --disable-issues --disable-wiki | Out-Null
+        & gh repo create $RepoName --public --description $Description --disable-issues --disable-wiki | Out-Null
+        if ($LASTEXITCODE -ne 0) { throw "Failed to create repository '$RepoName'." }
     } else {
         Write-Host "Repository '$RepoName' already exists - reusing it." -ForegroundColor DarkGray
+    }
+
+    # 1b. make sure 'origin' points at the GitHub repository
+    $prevRemoteErr = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    $currentOrigin = (& git remote get-url origin 2>&1 | Out-String).Trim()
+    $ErrorActionPreference = $prevRemoteErr
+    if (-not $currentOrigin -or $currentOrigin -notmatch '^https://github\.com/') {
+        Write-Host "Adding remote 'origin' -> $remoteUrl" -ForegroundColor Cyan
+        git remote add origin $remoteUrl
+    }
+    elseif ($currentOrigin -ne $remoteUrl) {
+        Write-Host "Updating remote 'origin' -> $remoteUrl" -ForegroundColor Cyan
+        git remote set-url origin $remoteUrl
     }
 
     # 2. push UAT first
@@ -64,15 +85,33 @@ try {
     # 3. push PRD and make it the default branch
     Write-Host "Pushing 'prd' branch..." -ForegroundColor Cyan
     git push -u origin prd
-    gh repo edit $RepoName --default-branch prd
+    gh repo edit "$user/$RepoName" --default-branch prd
 
-    # 4. GitHub Pages from /docs on the PRD branch
-    Write-Host "Enabling GitHub Pages (docs/ on prd)..." -ForegroundColor Cyan
-    gh api -X POST "repos/$user/$RepoName/pages" `
-        -f source[branch]=prd -f source[path]=/docs 2>$null | Out-Null
+    # 3b. push the legacy 'main' branch (mirror of prd) if it exists locally
+    if ((git branch --list main)) {
+        Write-Host "Pushing 'main' branch..." -ForegroundColor Cyan
+        git push origin main
+    }
+
+    # 4. GitHub Pages served from docs/ via .github/workflows/pages.yml
+    Write-Host "Configuring GitHub Pages (workflow build, docs/ on prd)..." -ForegroundColor Cyan
+    $prevErrPref2 = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & gh api "repos/$user/$RepoName/pages" --silent 2>&1 | Out-Null
+    if ($LASTEXITCODE -eq 0) {
+        # site already exists -> switch it to the workflow build
+        & gh api -X PUT "repos/$user/$RepoName/pages" -f build_type=workflow 2>&1 | Out-Null
+    }
+    else {
+        & gh api -X POST "repos/$user/$RepoName/pages" -f build_type=workflow 2>&1 | Out-Null
+    }
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Pages API call returned non-zero - it may already be configured. Skipping." -ForegroundColor Yellow
     }
+    else {
+        Write-Host "GitHub Pages configured (workflow build)." -ForegroundColor Green
+    }
+    $ErrorActionPreference = $prevErrPref2
 
     # 5. show the links
     Write-Host ''

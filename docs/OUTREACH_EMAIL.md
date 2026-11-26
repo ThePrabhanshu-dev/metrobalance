@@ -8,15 +8,17 @@ opened are the ones that read like an engineer who did the homework.
 
 ## 0. Before you send — fill these in
 
-| Token | What it is | Example |
+| Token | What it is | Value (already filled in) |
 |---|---|---|
-| `{{DECK_URL}}` | Shareable link to the 13-slide deck (GitHub Pages, once published) | `https://<user>.github.io/metrobalance/` |
-| `{{LIVE_URL}}` | Live application URL (your hosting) | `https://<your-host>/` |
-| `{{REPO_URL}}` | Source-code repository | `https://github.com/<user>/metrobalance` |
+| `{{DECK_URL}}` | Shareable link to the 13-slide deck (GitHub Pages) | `https://theprabhanshu-dev.github.io/metrobalance/` |
+| `{{LIVE_URL}}` | Live application URL — fill this with wherever you host the app, or present from `http://localhost:5080` | `https://<your-host>/` |
+| `{{REPO_URL}}` | Source-code repository | `https://github.com/ThePrabhanshu-dev/metrobalance` |
 | `{{PDF_ATTACH}}` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` |
 | `{{CPPP_ID}}` | Your CPPP / eTenders vendor registration ID (once registered) | `…` |
 | `{{YOUR_NAME}}`, `{{YOUR_PHONE}}`, `{{YOUR_EMAIL}}` | Your details | |
-| `{{DECK_PATH}}` | Where the deck is hosted, for the offline copy | |
+| `{{DECK_PATH}}` | Where the deck is hosted, for the offline copy | `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` |
+
+> The deck link is public, needs no login and renders offline — **send that first**. Everything else is optional.
 
 **Links to paste** (all verified working locally):
 
@@ -71,12 +73,13 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > discovered only when a gate rejects the journey.
 >
 > **What I have built.** A public web service (no login, no app, no database) that shows a card's balance in rupees,
-> its recharge history and its journey ledger. It is deployed and demonstrable today:
+> its recharge history and its journey ledger. It is running today, and the whole thing can be reviewed in one link:
 >
+> • 13-slide proposal deck (with a live walkthrough inside): {{DECK_URL}}
 > • Live application: {{LIVE_URL}}
-> • 13-slide proposal deck: {{DECK_URL}} (PDF attached)
 > • API documentation: {{LIVE_URL}}/swagger
-> • Source code: {{REPO_URL}}
+> • Source code (MIT-licensed, public): {{REPO_URL}}
+> • Offline copy of the deck (single HTML file): {{DECK_PATH}}
 >
 > Every figure in the demo is clearly labelled **DEMO DATA**. I have not scraped, queried or reverse-engineered any
 > DMRC system, and the application never displays an amount for a real card.

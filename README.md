@@ -139,6 +139,18 @@ data path. Everything is in [`docs/`](docs/):
   **PRD**) → the four asks → close.
 * Navigation: `←` `→` / `Space`, `F` fullscreen, `P` print-to-PDF, `Home` / `End`, clickable dots, deep links (`#7`).
 
+### Published links (live)
+
+| What | Link |
+| --- | --- |
+| Showcase deck (GitHub Pages) | <https://theprabhanshu-dev.github.io/metrobalance/> |
+| Deck, direct file | <https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html> |
+| Source code (public repo) | <https://github.com/ThePrabhanshu-dev/metrobalance> |
+| Proposal document (Markdown) | <https://github.com/ThePrabhanshu-dev/metrobalance/blob/prd/docs/DMRC_PROPOSAL.md> |
+
+The deck link is the one to paste into the e-mail — it needs no login and no local setup.
+Attach [`docs/DMRC_PROPOSAL.md`](docs/DMRC_PROPOSAL.md) (exported to PDF) as the formal proposal.
+
 ### Publishing to GitHub (UAT first, PRD as the main branch)
 
 ```powershell
@@ -152,8 +164,9 @@ powershell -ExecutionPolicy Bypass -File scripts\sync-docs.ps1
 powershell -ExecutionPolicy Bypass -File scripts\publish-github.ps1
 ```
 
-The script creates the repository, pushes **`uat` first**, then pushes **`prd`** and makes it the repository's
-**default branch**, enables GitHub Pages from `docs/` on `prd`, and prints the shareable links:
+The script creates the repository (if needed), wires up `origin`, pushes **`uat` first**, then pushes **`prd`**
+and makes it the repository's **default branch**, pushes `main`, configures GitHub Pages to publish `docs/` via
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml), and prints the shareable links:
 
 ```
 https://<user>.github.io/<repo>/              <- the deck (paste into the e-mail)
@@ -166,6 +179,7 @@ Branches:
 | --- | --- |
 | `uat` | UAT — Phase 1 of the DMRC rollout (integration against a sandbox feed). Pushed first. |
 | `prd` | PRD — the main/default branch. Production-ready build, published to GitHub Pages. |
+| `main` | Mirror of `prd`, kept for tooling that expects a `main` branch. |
 
 `.github/workflows/pages.yml` deploys `docs/` to GitHub Pages on every push to `prd`.
 
