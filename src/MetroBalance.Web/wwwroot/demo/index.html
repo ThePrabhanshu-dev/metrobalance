@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="MetroBalance interactive demo - a free, database-less Delhi Metro Smart Card balance and transaction history prototype built with ASP.NET Core. All balances shown are simulated DEMO DATA." />
+<meta name="robots" content="index, follow" />
+<title>MetroBalance - Live Demo (DEMO DATA) | Delhi Metro Smart Card Balance Checker</title>
+<link rel="stylesheet" href="demo.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1f3a'/%3E%3Crect x='7' y='7' width='18' height='13' rx='3' fill='none' stroke='%2322d3ee' stroke-width='2'/%3E%3Cpath d='M7 12h18' stroke='%2322d3ee' stroke-width='2'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+<div class="demo-ribbon">
+    <span class="demo-ribbon__dot"></span>
+    DEMO DATA &mdash; Every balance, recharge and journey below is a simulated sample. Nothing here is a live DMRC record.
+</div>
+
+<header class="site-header">
+    <nav class="site-nav mb-container">
+        <a class="navbar-brand" href="../" title="Back to the MetroBalance showcase">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="16" rx="4"></rect>
+                    <path d="M3 9h18"></path>
+                    <path d="M7 15h4"></path>
+                    <circle cx="16.5" cy="15" r="1.4"></circle>
+                </svg>
+            </span>
+            <span>Metro<span class="brand-accent">Balance</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="#lookup">Check Balance</a>
+            <a href="#guidanceSection">Real Card Guide</a>
+            <a href="#api">API</a>
+            <a href="../previews/website-preview.html">Preview</a>
+            <a class="nav-cta" href="../presentations/dmrc-proposal.html">Proposal deck</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="mb-container">
+        <div class="mb-row mb-row--2">
+            <div>
+                <span class="hero__eyebrow">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l2.4 5.1 5.6.8-4 4 .9 5.6L12 14.9 7.1 17.5 8 11.9l-4-4 5.6-.8L12 2z"></path>
+                    </svg>
+                    Interactive demo &middot; 100% free &middot; No login &middot; No database
+                </span>
+                <h1 class="mt-3 mb-3">Check your <span class="highlight">Delhi Metro</span> Smart Card balance in seconds.</h1>
+                <p class="hero__lead mb-0">
+                    Type a Smart Card number and instantly see <strong>how much money is left on the card</strong>,
+                    <strong>every top-up you made</strong> and <strong>every trip the fare was deducted from</strong>
+                    &mdash; in rupees, on your phone, without a login.
+                </p>
+
+                <ul class="checklist mt-4">
+                    <li>Know what you have before you travel &mdash; no queue at the Add Value Machine.</li>
+                    <li>See every recharge and every fare deduction, so nothing looks like a mystery.</li>
+                    <li>Free, private and instant &mdash; no app, no sign-up, no card details stored.</li>
+                </ul>
+
+                <div class="hero__stats">
+                    <div>
+                        <div class="hero__stat-value">&#8377;</div>
+                        <div class="hero__stat-label">Money left on card</div>
+                    </div>
+                    <div>
+                        <div class="hero__stat-value">6</div>
+                        <div class="hero__stat-label">Metro lines covered</div>
+                    </div>
+                    <div>
+                        <div class="hero__stat-value">24/7</div>
+                        <div class="hero__stat-label">Works any time</div>
+                    </div>
+                    <div>
+                        <div class="hero__stat-value">0</div>
+                        <div class="hero__stat-label">Forms to fill in</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="hero-visual">
+                    <div class="hero-visual__label">Sample card &mdash; DEMO</div>
+                    <div class="d-flex align-items-center justify-content-between mt-1 mb-3">
+                        <div>
+                            <div style="font-size:.78rem;color:rgba(255,255,255,.55);">Card holder</div>
+                            <div style="font-weight:600;" id="heroHolder">Aarav Sharma</div>
+                        </div>
+                        <div class="text-end">
+                            <div style="font-size:.78rem;color:rgba(255,255,255,.55);">Card type</div>
+                            <div style="font-weight:600;" id="heroCardType">Silver</div>
+                        </div>
+                    </div>
+                    <div class="hero-visual__label mb-1">Money left on the card</div>
+                    <div class="hero-visual__amount" id="heroBalance">&#8377; 2,725.50</div>
+                    <div class="hero-visual__row mt-3">
+                        <span>Last journey</span>
+                        <span id="heroJourney">Jangpura &rarr; Moolchand</span>
+                    </div>
+                    <div class="hero-visual__row">
+                        <span>Last updated</span>
+                        <span id="heroUpdated">25 Nov 2026, 05:17 AM</span>
+                    </div>
+                    <div class="line-strip">
+                        <span class="line-chip line-chip--blue">Blue</span>
+                        <span class="line-chip line-chip--yellow">Yellow</span>
+                        <span class="line-chip line-chip--red">Red</span>
+                        <span class="line-chip line-chip--violet">Violet</span>
+                        <span class="line-chip line-chip--pink">Pink</span>
+                        <span class="line-chip line-chip--green">Green</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--tight" id="lookup">
+    <div class="mb-container">
+        <div class="lookup-card mx-auto" style="max-width: 980px;">
+            <h2 class="h4 fw-bold mb-1">How much money is left on your card?</h2>
+            <p class="text-muted mb-4">
+                Enter the number printed on your Smart Card. Nothing else is needed &mdash; no login, no registration,
+                no payment.
+            </p>
+
+            <div class="mode-switch" role="group" aria-label="What would you like to see?">
+                <button type="button" class="mode-switch__btn is-active" id="modeAmount" data-mode="amount" aria-pressed="true">
+                    Just the balance
+                </button>
+                <button type="button" class="mode-switch__btn" id="modeStatement" data-mode="statement" aria-pressed="false">
+                    Balance + history
+                </button>
+            </div>
+            <p class="small text-muted mb-4">
+                <strong>Just the balance</strong> shows one number: the money left on your card.
+                <strong>Balance + history</strong> also shows every recharge and every journey fare.
+            </p>
+
+            <details class="howto mb-4">
+                <summary>Where do I find my Smart Card number?</summary>
+                <div class="howto__body">
+                    <ol>
+                        <li>Look at the front of your card &mdash; the number is printed on it.</li>
+                        <li>Use the 12-digit number printed on the card (it may be shown in groups like <code>8177 7696 0017</code>).</li>
+                        <li>Type it below. Spaces are fine, we ignore them.</li>
+                    </ol>
+                    <p class="mb-0">
+                        Lost card or damaged number? Enter any number and press the button &mdash; you will get the official
+                        step-by-step way to read a real card balance at the station.
+                    </p>
+                </div>
+            </details>
+
+            <form id="cardLookupForm" novalidate>
+                <div class="mb-row mb-row--2" style="align-items:end;">
+                    <div>
+                        <label class="lookup-label" for="cardNumberInput">Smart Card number</label>
+                        <input type="text" class="lookup-input" id="cardNumberInput" name="cardNumber"
+                               placeholder="e.g. 8177 7696 0017 5160" autocomplete="off" spellcheck="false" maxlength="25" />
+                        <div class="form-text">
+                            Type the number and press <strong>Check balance</strong>. Demo cards are listed below &mdash;
+                            pick one to try the full flow.
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn-mb-primary" id="cardLookupButton">
+                            <span id="lookupButtonText">Check balance</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="mt-4">
+                <div class="small text-uppercase fw-bold text-muted mb-2" style="letter-spacing:.08em;">Try a demo card</div>
+                <div class="d-flex flex-wrap gap-2" id="demoCardChips">
+                    <span class="text-muted small">Loading demo cards&hellip;</span>
+                </div>
+            </div>
+
+            <div class="help-note mt-4">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"></path>
+                </svg>
+                <span>Your card number is only used to answer your query &mdash; it is not stored, not shared and not sold.</span>
+            </div>
+
+            <div id="lookupAlert" class="alert-mb mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<section class="result-shell" id="amountSection">
+    <div class="mb-container">
+        <div class="lookup-card" style="max-width: 980px; margin: 0 auto;">
+            <div class="balance-card" id="amountCard">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-3" style="position:relative;z-index:2;">
+                    <div>
+                        <div class="hero-visual__label">Money left on your card &mdash; DEMO DATA</div>
+                        <div class="balance-amount" id="amountValue">&mdash;</div>
+                        <div class="balance-label" id="amountMeta">Card number</div>
+                        <p class="balance-label mb-0">This is the money still in your card for travel.</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge-demo">Demo Data</span>
+                        <div class="mt-2 small balance-label" id="amountLastUpdated">&mdash;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-mb alert-mb--info mt-4" id="amountUnavailable">
+                This card cannot be read online &mdash; DMRC does not offer an internet balance service yet.
+                <a class="fw-semibold" href="#guidanceSection">See how to check your balance at the station</a>.
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" class="btn-mb-outline" id="amountFullStatementButton">
+                    Also show recharge &amp; journey history
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="result-shell" id="resultSection">
+    <div class="mb-container">
+        <div class="balance-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3" style="position:relative;z-index:2;">
+                <div>
+                    <div class="hero-visual__label">Money left on your card &mdash; DEMO DATA</div>
+                    <div class="balance-amount" id="balanceAmount">&#8377; 0.00</div>
+                    <div class="balance-label" id="balanceCardMeta">Card number</div>
+                    <p class="balance-label mb-0">This is the money still in your card for travel.</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge-demo">Demo Data</span>
+                    <div class="mt-2 small balance-label" id="balanceLastUpdated">&mdash;</div>
+                </div>
+            </div>
+
+            <div class="mb-row mb-row--cards mt-4" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
+                <div>
+                    <div class="hero-visual__label">Card holder</div>
+                    <div class="fw-semibold" id="balanceHolder">&mdash;</div>
+                </div>
+                <div>
+                    <div class="hero-visual__label">Card type</div>
+                    <div class="fw-semibold" id="balanceCardType">&mdash;</div>
+                </div>
+                <div>
+                    <div class="hero-visual__label">Card status</div>
+                    <div class="fw-semibold" id="balanceStatus">&mdash;</div>
+                </div>
+                <div>
+                    <div class="hero-visual__label">Total money added</div>
+                    <div class="fw-semibold" id="balanceTotalRecharged">&mdash;</div>
+                </div>
+            </div>
+            <p class="balance-label mt-3 mb-0">
+                <strong>Total money added</strong> is everything you have topped up since the card was issued.
+            </p>
+        </div>
+
+        <div class="mb-row mb-row--2 mt-4">
+            <div class="panel panel--raised">
+                <h3 class="panel__title">Every time you added money</h3>
+                <p class="panel__subtitle">All your top-ups, with amount and date</p>
+                <div id="rechargeList"></div>
+            </div>
+
+            <div class="panel panel--raised">
+                <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                    <div>
+                        <h3 class="panel__title mb-0">Every trip and what it cost</h3>
+                        <p class="panel__subtitle">From which station to which, and the fare taken</p>
+                    </div>
+                    <span class="meta-pill" id="journeyCountLabel">0 journeys</span>
+                </div>
+                <div class="table-wrap">
+                    <table class="table-mb">
+                        <thead>
+                            <tr>
+                                <th>Date &amp; time</th>
+                                <th>Journey</th>
+                                <th>Line</th>
+                                <th style="text-align:right;">Fare</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="result-shell" id="guidanceSection">
+    <div class="mb-container">
+        <div class="panel panel--raised">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+                <div>
+                    <span class="badge-demo badge-demo--light">Real card &mdash; no online balance</span>
+                    <h2 class="h5 fw-bold mt-3 mb-2">How to read the balance of <span id="guidanceCardNumber">your card</span></h2>
+                    <p class="text-muted mb-0" style="max-width:46rem;">
+                        DMRC does not publish an online card balance service, so no website can show a live balance for
+                        a real card. MetroBalance never invents one &mdash; here is exactly how to read it yourself.
+                    </p>
+                </div>
+                <div class="text-end">
+                    <span class="meta-pill" id="guidanceCardKind">Card type</span>
+                </div>
+            </div>
+
+            <div class="alert-mb alert-mb--info mb-4 is-visible" id="guidancePolicy">
+                DMRC does not publish a service that returns a card balance over the internet.
+            </div>
+
+            <div class="mb-row mb-row--2">
+                <div>
+                    <h3 class="h6 fw-bold mb-3">Read it at the station</h3>
+                    <ol class="guide-steps" id="guidanceSteps"></ol>
+                </div>
+                <div>
+                    <h3 class="h6 fw-bold mb-3">Official DMRC channels</h3>
+                    <div class="mb-stack--sm" id="guidanceLinks"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="mb-container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Everything you need, on one screen</h2>
+            <p class="section-subtitle mx-auto mt-2">
+                Your money left, your top-ups and your trips &mdash; shown in rupees, in the order you need them.
+            </p>
+        </div>
+
+        <div class="mb-row mb-row--cards">
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>
+                    </svg>
+                </span>
+                <h3>Money left on your card</h3>
+                <p>The exact rupees available right now, plus when this information was last refreshed.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 7h18v12H3z"></path><path d="M3 11h18"></path><path d="M7 15h4"></path>
+                    </svg>
+                </span>
+                <h3>Every recharge you made</h3>
+                <p>Each top-up with its amount, date and where you added it.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"></path><path d="M8 13h8M8 17h5"></path>
+                    </svg>
+                </span>
+                <h3>Every journey and its fare</h3>
+                <p>From station to station, which line, and how much was deducted.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="3"></rect><path d="M11 18h2"></path>
+                    </svg>
+                </span>
+                <h3>Works on any phone</h3>
+                <p>A simple, responsive screen that loads fast on any phone, tablet or laptop.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="mb-container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Why this is useful to you</h2>
+            <p class="section-subtitle mx-auto mt-2">
+                MetroBalance answers the questions riders actually ask &mdash; in everyday words, before you reach the gate.
+            </p>
+        </div>
+
+        <div class="mb-row mb-row--2">
+            <ul class="benefit-list">
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">No queue at the Add Value Machine</div>
+                        <p class="benefit-item__text">
+                            Check how much money is left <strong>before</strong> you travel, instead of finding out at the gate.
+                        </p>
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 7h18v12H3z"></path><path d="M3 11h18"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">Every rupee explained</div>
+                        <p class="benefit-item__text">
+                            Match the money you added against the money that was spent, so the number on the card makes sense.
+                        </p>
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">Your card number is not kept</div>
+                        <p class="benefit-item__text">
+                            Nothing is stored, no account is created, and no details are shared with anyone.
+                        </p>
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M10 18h4"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">One screen, any phone</div>
+                        <p class="benefit-item__text">
+                            It opens instantly on an old phone or a new one &mdash; no app download, no sign-up.
+                        </p>
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19h16"></path><path d="M6 16V9"></path><path d="M10 16V5"></path><path d="M14 16v-4"></path><path d="M18 16V8"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">See your spending pattern</div>
+                        <p class="benefit-item__text">
+                            The trip list shows which lines you use most and how much a month of travel costs you.
+                        </p>
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <span class="benefit-item__icon">
+                        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="benefit-item__title">Free forever for riders</div>
+                        <p class="benefit-item__text">
+                            No paid tier, no subscription, no hidden charge &mdash; funded by DMRC, not by riders.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="panel panel--raised">
+                <h3 class="panel__title">What this means for you</h3>
+                <p class="panel__subtitle">A short, plain-English summary of the screen above.</p>
+
+                <ul class="checklist">
+                    <li><strong>Money left on your card</strong> &mdash; the rupees you can still travel with.</li>
+                    <li><strong>Every time you added money</strong> &mdash; your top-ups, with date and amount.</li>
+                    <li><strong>Every trip and what it cost</strong> &mdash; station to station, with the fare deducted.</li>
+                    <li><strong>Last updated</strong> &mdash; when this information was last refreshed, so you always know how fresh it is.</li>
+                    <li><strong>Total money added</strong> &mdash; everything you have topped up since the card was issued.</li>
+                </ul>
+
+                <div class="alert-mb alert-mb--warn mt-4 is-visible">
+                    <strong>Plain words:</strong> if the balance looks lower than you expect, the difference is normally a
+                    journey fare that was already deducted. The journey list shows exactly which one.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="mb-container mb-narrow">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Questions people ask</h2>
+            <p class="section-subtitle mx-auto mt-2">Short answers, no jargon.</p>
+        </div>
+
+        <details class="faq-item">
+            <summary>Do I need to create an account or log in?</summary>
+            <div class="faq-item__body">No. Type the card number and press one button. There is no sign-up, no password and no
+                login of any kind. That is also why nothing about you is stored.</div>
+        </details>
+        <details class="faq-item">
+            <summary>Where is the number printed on my card?</summary>
+            <div class="faq-item__body">On the front of the card you will find a 12-digit Smart Card number. On the back you
+                will find the 10 or 11 digit Engraved ID, which is the number you use for online top-ups.</div>
+        </details>
+        <details class="faq-item">
+            <summary>Is the balance shown here my real balance?</summary>
+            <div class="faq-item__body">In this public demo, no &mdash; every figure is clearly marked DEMO DATA and is a
+                simulated sample. DMRC does not currently publish an online card balance service, so no website can show a
+                live balance. With DMRC authorisation, the same screen would read the real balance from the official
+                source.</div>
+        </details>
+        <details class="faq-item">
+            <summary>How much does it cost me?</summary>
+            <div class="faq-item__body">Nothing. The application uses only free, open-source technology and has no paid
+                service behind it. Running it for DMRC riders would also be free of charge.</div>
+        </details>
+        <details class="faq-item">
+            <summary>Does it work on my phone?</summary>
+            <div class="faq-item__body">Yes. The screen adapts to any phone, tablet or laptop, and loads without an app
+                download.</div>
+        </details>
+        <details class="faq-item">
+            <summary>My card is blocked or expired &mdash; what happens?</summary>
+            <div class="faq-item__body">The screen tells you the card status straight away, together with the official steps
+                to get it reactivated at a Customer Care counter.</div>
+        </details>
+    </div>
+</section>
+
+<section class="section section--soft" id="api">
+    <div class="mb-container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">The API behind this screen</h2>
+            <p class="section-subtitle mx-auto mt-2">
+                Every number on this page came from a JSON API. Here are the real responses, captured from the running
+                ASP.NET Core Web API.
+            </p>
+        </div>
+
+        <div class="mb-stack">
+            <details class="raw">
+                <summary>GET /api/cards/{cardNumber}/balance</summary>
+                <pre class="code-block" id="rawBalance"></pre>
+            </details>
+            <details class="raw">
+                <summary>GET /api/cards/{cardNumber}/statement</summary>
+                <pre class="code-block" id="rawStatement"></pre>
+            </details>
+            <details class="raw">
+                <summary>GET /api/cards/{cardNumber}/enquiry &mdash; the endpoint this demo uses</summary>
+                <pre class="code-block" id="rawEnquiry"></pre>
+            </details>
+            <details class="raw">
+                <summary>GET /api/cards/{cardNumber}/amount &mdash; balance only</summary>
+                <pre class="code-block" id="rawAmount"></pre>
+            </details>
+        </div>
+
+        <div class="alert-mb alert-mb--info mt-4 is-visible">
+            <strong>Snapshot taken:</strong> <span id="snapshotStamp">&mdash;</span> &mdash; exported from the running local
+            application by <code>scripts/export-demo-data.ps1</code>. The production build documents the same endpoints
+            with Swagger.
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="mb-container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">What is behind the screen</h2>
+            <p class="section-subtitle mx-auto mt-2">
+                A clean .NET 10 solution with a provider seam that is ready for an authorised DMRC integration.
+            </p>
+        </div>
+
+        <div class="mb-row mb-row--cards">
+            <div class="feature-card">
+                <span class="feature-icon">&#9635;</span>
+                <h3>MetroBalance.Core</h3>
+                <p>Models, validation, card-number classification, contracts and the <code>IMetroCardProvider</code>
+                    interface. No dependencies.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">&#9635;</span>
+                <h3>MetroBalance.Infrastructure</h3>
+                <p>Services, dependency-injection wiring and the in-memory demo provider built on plain C# Lists and
+                    Dictionaries.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">&#9635;</span>
+                <h3>MetroBalance.Api</h3>
+                <p>ASP.NET Core Web API with Swagger: balance, recharges, transactions, statement, enquiry and amount.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">&#9635;</span>
+                <h3>MetroBalance.Web</h3>
+                <p>ASP.NET Core MVC front end with Bootstrap 5, the responsive rider-facing screens and this static demo.</p>
+            </div>
+        </div>
+
+        <div class="alert-mb alert-mb--info mt-4 is-visible">
+            <strong>Zero database.</strong> All data lives in memory for the lifetime of the process &mdash; nothing is
+            written to disk, no SQL Server, no cloud database, no paid service.
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="mb-container">
+        <div class="mb-row mb-row--cards py-4">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="brand-mark brand-mark--footer" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="16" rx="4"></rect>
+                            <path d="M3 9h18"></path>
+                            <path d="M7 15h4"></path>
+                            <circle cx="16.5" cy="15" r="1.4"></circle>
+                        </svg>
+                    </span>
+                    <span class="fw-bold">Metro<span class="brand-accent">Balance</span></span>
+                </div>
+                <p class="footer-text">
+                    A free, open, demo-only companion for Delhi Metro Smart Card enquiries. Built with
+                    ASP.NET Core MVC &amp; Web API on 100% free and open-source technology.
+                </p>
+                <p class="footer-text footer-text--muted">
+                    Not affiliated with, endorsed by, or connected to DMRC or the Delhi Metro Rail Corporation.
+                </p>
+                <div class="contact-line"><span>&#9742;</span><span>+91 6394831599</span></div>
+                <div class="contact-line"><span>&#9993;</span><span>prabhanshukla333@gmail.com</span></div>
+                <div class="contact-line"><span>&#128100;</span><span>Prabhanshu Shukla</span></div>
+            </div>
+
+            <div>
+                <h6 class="footer-heading">Explore</h6>
+                <ul class="footer-links">
+                    <li><a href="#lookup">Check balance</a></li>
+                    <li><a href="#guidanceSection">Real card guide</a></li>
+                    <li><a href="#api">API responses</a></li>
+                    <li><a href="../previews/website-preview.html">Website preview</a></li>
+                    <li><a href="../presentations/dmrc-proposal.html">Proposal deck</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h6 class="footer-heading">Project</h6>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/ThePrabhanshu-dev/metrobalance" target="_blank" rel="noopener">Source code on GitHub</a></li>
+                    <li><a href="https://github.com/ThePrabhanshu-dev/metrobalance/blob/main/docs/MetroBalance-DMRC-Proposal.pdf" target="_blank" rel="noopener">Proposal (PDF)</a></li>
+                    <li><a href="https://github.com/ThePrabhanshu-dev/metrobalance/blob/main/docs/MetroBalance-Website-Preview.pdf" target="_blank" rel="noopener">Website preview (PDF)</a></li>
+                    <li><a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener">.NET 10</a></li>
+                    <li><a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap 5</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 MetroBalance. Demo project &mdash; simulated data only.</span>
+            <span>Zero database &middot; Zero paid services &middot; No login required</span>
+        </div>
+    </div>
+</footer>
+
+<script src="demo-data.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

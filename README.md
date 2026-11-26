@@ -16,7 +16,7 @@ A public, zero-login website for checking **Delhi Metro Smart Card** balance, re
 | Concern | Choice |
 | --- | --- |
 | Runtime | .NET 10 (`net10.0`) — ASP.NET Core MVC + ASP.NET Core Web API |
-| Front end | Bootstrap 5 (vendored locally), plain HTML / CSS / JavaScript, jQuery + jQuery Validate |
+| Front end | Bootstrap 5 (vendored locally), plain HTML / CSS / JavaScript — no jQuery, no client-side framework |
 | Data | In-memory `List<T>` / `Dictionary<,>` only — **no database, no SQL Server, no EF Core** |
 | API docs | Swagger / OpenAPI (Swashbuckle.AspNetCore 11.0.1) |
 | Cost | 100 % free — no paid APIs, no subscriptions, no external services |
@@ -38,11 +38,14 @@ D:\Metro
 │   ├── previews/
 │   │   ├── website-preview.html          # screen-by-screen preview document (real screenshots)
 │   │   └── screenshots/*.jpg             # 12 real captures of the running site
+│   ├── demo/                             # static interactive demo (no .NET host needed)
+│   ├── presentations/                    # deck copy for Pages
 │   └── index.html                        # deck copy served by GitHub Pages
 ├── scripts/
-│   ├── sync-docs.ps1                     # copies the deck + preview into docs/ for GitHub Pages
+│   ├── sync-docs.ps1                     # copies the deck + preview + demo into docs/ for GitHub Pages
 │   ├── export-pdf.ps1                    # deck -> PDF (headless Chrome)
 │   ├── export-preview-pdf.ps1            # website preview document -> PDF (headless Chrome)
+│   ├── export-demo-data.ps1              # running API -> wwwroot/demo/demo-data.js snapshot
 │   └── publish-github.ps1                # gh repo create -> push uat -> push prd -> enable Pages
 ├── .github/workflows/pages.yml           # deploys docs/ to GitHub Pages on push to prd
 └── src
@@ -119,6 +122,7 @@ dotnet build MetroBalance.slnx
 | `http://localhost:5080/Card?cardNumber=DMRC-DEMO-1001` | Server-rendered statement page (works without JS) |
 | `http://localhost:5080/Card?cardNumber=DMRC-DEMO-1001&mode=amount` | Server-rendered **balance-only** page |
 | `http://localhost:5080/Card/Lookup` | POST target of the no-JavaScript form (antiforgery protected) |
+| `http://localhost:5080/demo/` | **Static interactive demo** — the same UX with no .NET host (also published on GitHub Pages) |
 | `http://localhost:5080/swagger` | Swagger UI |
 
 ---
@@ -138,6 +142,27 @@ data path. Everything is in [`docs/`](docs/):
 | [`docs/MetroBalance-DMRC-Proposal.pdf`](docs/MetroBalance-DMRC-Proposal.pdf) | The deck as a 13-page PDF — attach this to the e-mail |
 | [`docs/previews/website-preview.html`](docs/previews/website-preview.html) | **Website preview document** — screen-by-screen gallery of the running site with real screenshots |
 | [`docs/MetroBalance-Website-Preview.pdf`](docs/MetroBalance-Website-Preview.pdf) | The preview document as a 33-page PDF — attach alongside the deck |
+| [`docs/demo/index.html`](docs/demo/index.html) | **Static interactive demo** — the working app as a self-contained page (no .NET host needed) |
+
+### The static interactive demo
+
+`src/MetroBalance.Web/wwwroot/demo/` is a **fully working copy of the website that needs no server**. It is the
+link DMRC can click straight from the e-mail, on any phone or laptop, with no login and no setup.
+
+* `index.html` — the page (hero, card lookup, result panels, guidance, API samples, FAQ).
+* `demo.css` / `demo.js` — self-contained stylesheet and behaviour (Bootstrap-free, no CDN).
+* `demo-data.js` — the snapshot of the API responses that backs the demo.
+* Regenerate the snapshot from the running application:
+
+```powershell
+# start the app first: dotnet run --project src\MetroBalance.Web
+powershell -ExecutionPolicy Bypass -File scripts\export-demo-data.ps1 -BaseUrl http://localhost:5080
+```
+
+* Published at <https://theprabhanshu-dev.github.io/metrobalance/demo/> by
+  [`scripts/sync-docs.ps1`](scripts/sync-docs.ps1), which mirrors `wwwroot/demo` → `docs/demo`.
+* Every figure it shows is **DEMO DATA**, and entering a real card number returns official DMRC channels
+  instead of a fabricated balance.
 
 ### The website preview document
 
@@ -168,6 +193,7 @@ of every screen, taken from the running application (not mock-ups).
 
 | What | Link |
 | --- | --- |
+| **Interactive live demo** (public, no login) | <https://theprabhanshu-dev.github.io/metrobalance/demo/> |
 | Showcase deck (GitHub Pages) | <https://theprabhanshu-dev.github.io/metrobalance/> |
 | Deck, direct file | <https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html> |
 | **Website preview document** | <https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html> |
@@ -176,7 +202,9 @@ of every screen, taken from the running application (not mock-ups).
 | Source code (public repo) | <https://github.com/ThePrabhanshu-dev/metrobalance> |
 | Proposal document (Markdown) | <https://github.com/ThePrabhanshu-dev/metrobalance/blob/prd/docs/DMRC_PROPOSAL.md> |
 
-The deck link is the one to paste into the e-mail — it needs no login and no local setup.
+The **interactive demo link** is the one to paste into the e-mail first — it is a fully working, static capture of
+the application (balance, recharge history, journey ledger, real-card guidance and the real JSON API responses),
+it needs no login, no local setup and opens on any phone or laptop.
 Send the **preview document link** in the same e-mail so the recipient can see the actual screens before
 opening the attachment. Attach [`docs/MetroBalance-DMRC-Proposal.pdf`](docs/MetroBalance-DMRC-Proposal.pdf)
 and [`docs/MetroBalance-Website-Preview.pdf`](docs/MetroBalance-Website-Preview.pdf) as the two attachments.

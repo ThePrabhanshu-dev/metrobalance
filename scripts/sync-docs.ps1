@@ -49,5 +49,27 @@ if (Test-Path $previewSource) {
     Write-Host "Synced website preview -> docs\previews\" -ForegroundColor Green
 }
 
+# Static interactive demo (works on GitHub Pages without a .NET host) and the
+# deck assets it links to.
+$demoSource = Join-Path $ProjectRoot 'src\MetroBalance.Web\wwwroot\demo'
+$demoTarget = Join-Path $docsDir 'demo'
+if (Test-Path $demoSource) {
+    if (Test-Path $demoTarget) {
+        Remove-Item -Path $demoTarget -Recurse -Force
+    }
+    Copy-Item -Path $demoSource -Destination $demoTarget -Recurse -Force
+    Write-Host "Synced static demo -> docs\demo\" -ForegroundColor Green
+}
+
+$presentationSource = Join-Path $ProjectRoot 'src\MetroBalance.Web\wwwroot\presentations'
+$presentationTarget = Join-Path $docsDir 'presentations'
+if (Test-Path $presentationSource) {
+    if (Test-Path $presentationTarget) {
+        Remove-Item -Path $presentationTarget -Recurse -Force
+    }
+    Copy-Item -Path $presentationSource -Destination $presentationTarget -Recurse -Force
+    Write-Host "Synced deck assets -> docs\presentations\" -ForegroundColor Green
+}
+
 Write-Host "Synced deck -> docs\index.html and docs\dmrc-proposal.html" -ForegroundColor Green
 Get-ChildItem $docsDir | Select-Object Name, Length | Format-Table -AutoSize

@@ -10,34 +10,34 @@ opened are the ones that read like an engineer who did the homework.
 
 | Token | What it is | Value (already filled in) |
 |---|---|---|
-| `{{DECK_URL}}` | Shareable link to the 13-slide deck (GitHub Pages) | `https://theprabhanshu-dev.github.io/metrobalance/` |
-| `{{PREVIEW_URL}}` | Shareable link to the **website preview document** (real screenshots of every screen) | `https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html` |
-| `{{LIVE_URL}}` | Live application URL — fill this with wherever you host the app, or present from `http://localhost:5080` | `https://<your-host>/` |
-| `{{REPO_URL}}` | Source-code repository | `https://github.com/ThePrabhanshu-dev/metrobalance` |
-| `{{PDF_ATTACH}}` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` (in `docs/`, ready to attach) |
-| `{{PREVIEW_ATTACH}}` | The website preview document exported to PDF | `MetroBalance-Website-Preview.pdf` (in `docs/`, ready to attach) |
-| `{{CPPP_ID}}` | Your CPPP / eTenders vendor registration ID (once registered) | `…` |
-| `{{YOUR_NAME}}`, `{{YOUR_PHONE}}`, `{{YOUR_EMAIL}}` | Your details | |
-| `{{DECK_PATH}}` | Where the deck is hosted, for the offline copy | `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` |
+| `https://theprabhanshu-dev.github.io/metrobalance/` | Shareable link to the 13-slide deck (GitHub Pages) | `https://theprabhanshu-dev.github.io/metrobalance/` |
+| `https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html` | Shareable link to the **website preview document** (real screenshots of every screen) | `https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html` |
+| `https://theprabhanshu-dev.github.io/metrobalance/demo/` | **Interactive live demo** — public link DMRC can click (static app, works on any phone or laptop, no login) | `https://theprabhanshu-dev.github.io/metrobalance/demo/` |
+| `https://github.com/ThePrabhanshu-dev/metrobalance` | Source-code repository | `https://github.com/ThePrabhanshu-dev/metrobalance` |
+| `MetroBalance-DMRC-Proposal.pdf` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` (in `docs/`, ready to attach) |
+| `MetroBalance-Website-Preview.pdf` | The website preview document exported to PDF | `MetroBalance-Website-Preview.pdf` (in `docs/`, ready to attach) |
+| `<<add your CPPP vendor ID once registered>>` | Your CPPP / eTenders vendor registration ID (once registered) | `«add your CPPP vendor ID here once registered»` |
+| `Prabhanshu Shukla`, `+91 6394831599`, `prabhanshukla333@gmail.com` | Your details | `Prabhanshu Shukla` · `+91 6394831599` · `prabhanshukla333@gmail.com` |
+| `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` | Where the deck is hosted, for the offline copy | `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` |
 
 > The deck link is public, needs no login and renders offline — **send that first**. Everything else is optional.
 
-**Links to paste** (all verified working locally):
+**Links to paste** (all verified working):
 
-* Deck (in-app): `/showcase`
+* **Public demo (click from the e-mail): `https://theprabhanshu-dev.github.io/metrobalance/demo/`**
 * Deck (standalone, offline, single file): `/presentations/dmrc-proposal.html`
 * **Website preview document (screenshots of every screen): `/previews/website-preview.html`**
 * Live balance check: `/Card?cardNumber=DMRC-DEMO-1001`
 * Balance-only answer: `/Card?cardNumber=DMRC-DEMO-1001&mode=amount`
 * Real-card guidance: `/guide`
-* Interactive API docs: `/swagger`
+* Interactive API docs (when the .NET app is running locally): `/swagger`
 * Statement API sample: `/api/cards/DMRC-DEMO-1001/statement`
 
 **Checklist before the first send**
 
 - [ ] Deck link opens on a phone (test in incognito).
-- [ ] `{{PREVIEW_URL}}` opens and every screenshot loads (12 images).
-- [ ] `{{LIVE_URL}}` returns 200 and the balance demo works.
+- [ ] `https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html` opens and every screenshot loads (12 images).
+- [ ] `https://theprabhanshu-dev.github.io/metrobalance/demo/` returns 200 and the balance demo works.
 - [ ] The e-mail does **not** claim any live balance is real.
 - [ ] Attach `docs/MetroBalance-DMRC-Proposal.pdf` **and** `docs/MetroBalance-Website-Preview.pdf` as well as the
       links (some officials block links). Combined size ≈ 5 MB — if the mail bounces, attach the preview only.
@@ -80,12 +80,12 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > **What I have built.** A public web service (no login, no app, no database) that shows a card's balance in rupees,
 > its recharge history and its journey ledger. It is running today, and the whole thing can be reviewed in one link:
 >
-> • 13-slide proposal deck (with a live walkthrough inside): {{DECK_URL}}
-> • Website preview — every screen of the site with real screenshots: {{PREVIEW_URL}}
-> • Live application: {{LIVE_URL}}
-> • API documentation: {{LIVE_URL}}/swagger
-> • Source code (MIT-licensed, public): {{REPO_URL}}
-> • Offline copy of the deck (single HTML file): {{DECK_PATH}}
+> • 13-slide proposal deck (with a live walkthrough inside): https://theprabhanshu-dev.github.io/metrobalance/
+> • Website preview — every screen of the site with real screenshots: https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html
+> • Interactive live demo (opens on any phone or laptop, no login): https://theprabhanshu-dev.github.io/metrobalance/demo/
+> • API responses — real JSON samples captured from the running application: https://theprabhanshu-dev.github.io/metrobalance/demo/#api
+> • Source code (MIT-licensed, public): https://github.com/ThePrabhanshu-dev/metrobalance
+> • Offline copy of the deck (single HTML file): https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html
 >
 > Every figure in the demo is clearly labelled **DEMO DATA**. I have not scraped, queried or reverse-engineered any
 > DMRC system, and the application never displays an amount for a real card.
@@ -103,15 +103,15 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > can be hosted, audited, forked or discontinued by DMRC at any time.
 >
 > I have also attached a one-page summary (deck PDF) and a screen-by-screen preview of the website
-> (`{{PREVIEW_ATTACH}}`). If a short call is easier than a review, I am happy to send the
+> (`MetroBalance-Website-Preview.pdf`). If a short call is easier than a review, I am happy to send the
 > agenda in advance.
 >
 > Thank you for your time.
 >
 > Warm regards,
-> **{{YOUR_NAME}}**
-> {{YOUR_EMAIL}} · {{YOUR_PHONE}}
-> {{LIVE_URL}}
+> **Prabhanshu Shukla**
+> prabhanshukla333@gmail.com · +91 6394831599
+> https://theprabhanshu-dev.github.io/metrobalance/demo/
 
 ---
 
@@ -125,8 +125,8 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 >
 > DMRC's Smart Card FAQ says plainly that a card balance cannot be checked online, so riders queue at machines to read a
 > number they already know. I have built a complete, working **Smart Card enquiry service** — balance, recharge history
-> and journey ledger, in rupees, on any phone, with no login and no app. It is live today: {{LIVE_URL}}, with a
-> 13-slide proposal here: {{DECK_URL}}, a screen-by-screen preview of the site here: {{PREVIEW_URL}}, and the source code at {{REPO_URL}}.
+> and journey ledger, in rupees, on any phone, with no login and no app. It is live today: https://theprabhanshu-dev.github.io/metrobalance/demo/, with a
+> 13-slide proposal here: https://theprabhanshu-dev.github.io/metrobalance/, a screen-by-screen preview of the site here: https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html, and the source code at https://github.com/ThePrabhanshu-dev/metrobalance.
 >
 > Why it belongs with Business Development: DMRC already permits named third parties to sell on its channels (Delhi
 > Metro Sarthi App, Paytm, PhonePe, One Delhi, Amazon, IRCTC). This is the **read-only enquiry** counterpart — it adds no
@@ -140,7 +140,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > If this is not the right desk, could you point me to the one that is? I would be grateful.
 >
 > With thanks,
-> **{{YOUR_NAME}}** · {{YOUR_PHONE}} · {{LIVE_URL}}
+> **Prabhanshu Shukla** · +91 6394831599 · https://theprabhanshu-dev.github.io/metrobalance/demo/
 
 ---
 
@@ -151,7 +151,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > Dear Mr. Sarma,
 >
 > I am following up on a proposal I sent to DMRC's IT and AFC teams regarding a rider-facing Smart Card balance enquiry
-> service (working demo: {{LIVE_URL}}; short deck: {{DECK_URL}}).
+> service (working demo: https://theprabhanshu-dev.github.io/metrobalance/demo/; short deck: https://theprabhanshu-dev.github.io/metrobalance/).
 >
 > I am writing to you only because the service has a genuine public-interest angle that may suit DMRC's communications
 > work: it gives every rider a **free, no-login way to check their own card balance and journey history**, in line with
@@ -164,7 +164,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > Thank you for your consideration.
 >
 > Regards,
-> **{{YOUR_NAME}}** · {{YOUR_PHONE}}
+> **Prabhanshu Shukla** · +91 6394831599
 
 ---
 
@@ -174,7 +174,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 
 > Dear Mr. Gupta,
 >
-> Following my note of {{DATE}}, I would like to put a concrete 30-minute slot to your team.
+> Following my note of 26 November 2026, I would like to put a concrete 30-minute slot to your team.
 >
 > **Proposed agenda (30 min):**
 > 1. 5 min — the rider problem, using DMRC's published FAQ.
@@ -182,23 +182,23 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > 3. 10 min — where an authorised data feed would connect (the architecture is already seam-ready).
 > 4. 5 min — what a UAT pilot would look like, and what it would cost DMRC (nothing).
 >
-> The build, the API documentation and the source code are available here: {{LIVE_URL}} · {{DECK_URL}} · {{PREVIEW_URL}} · {{REPO_URL}}.
+> The live demo, the deck, the website preview and the source code are available here: https://theprabhanshu-dev.github.io/metrobalance/demo/ · https://theprabhanshu-dev.github.io/metrobalance/ · https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html · https://github.com/ThePrabhanshu-dev/metrobalance.
 >
-> Would any of {{TWO_OR_THREE_SLOTS}} suit you? I am happy to work around your team's timings, and to send the agenda
+> Would any of Tue 1 Dec 2026 at 10:00 IST, Wed 2 Dec 2026 at 11:30 IST, or Thu 3 Dec 2026 at 15:00 IST suit you? I am happy to work around your team's timings, and to send the agenda
 > in advance.
 >
 > Regards,
-> **{{YOUR_NAME}}** · {{YOUR_PHONE}}
+> **Prabhanshu Shukla** · +91 6394831599
 
 ---
 
 ## 6. Email E — 7-day follow-up
 
-**Subject:** `Re: {{ORIGINAL_SUBJECT}}`
+**Subject:** `Re: Working demo: read-only Delhi Metro Smart Card balance enquiry service - request for a 30-minute technical review`
 
 > Dear Mr. Gupta,
 >
-> A brief follow-up to my note of {{DATE}} — I know an unsolicited proposal is easy to lose.
+> A brief follow-up to my note of 26 November 2026 — I know an unsolicited proposal is easy to lose.
 >
 > Two things that may help it reach the right person:
 >
@@ -210,7 +210,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > If it is not a priority, I would genuinely appreciate a one-line "not now" so I stop taking up your inbox.
 >
 > Thank you,
-> **{{YOUR_NAME}}** · {{YOUR_PHONE}} · {{LIVE_URL}}
+> **Prabhanshu Shukla** · +91 6394831599 · https://theprabhanshu-dev.github.io/metrobalance/demo/
 
 ---
 
@@ -220,16 +220,16 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 
 > Dear Mr. Gupta,
 >
-> I am closing the loop on my proposal of {{DATE}} about a read-only Smart Card balance enquiry service.
+> I am closing the loop on my proposal of 26 November 2026 about a read-only Smart Card balance enquiry service.
 >
-> The working prototype and the source code remain available at {{LIVE_URL}} and {{REPO_URL}}, and I am happy to revisit
+> The working prototype and the source code remain available at https://theprabhanshu-dev.github.io/metrobalance/demo/ and https://github.com/ThePrabhanshu-dev/metrobalance, and I am happy to revisit
 > this whenever the timing is better — for example, alongside the next AFC tender cycle, a DMRC Innovation Policy intake,
 > or a pilot with the AFC team.
 >
 > Thank you for your time.
 >
 > Regards,
-> **{{YOUR_NAME}}** · {{YOUR_PHONE}}
+> **Prabhanshu Shukla** · +91 6394831599
 
 ---
 
@@ -238,13 +238,13 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 **LinkedIn connection note (≤ 300 characters):**
 
 > Built a working Delhi Metro Smart Card balance enquiry service (no login, no app, free). DMRC's own FAQ says balance
-> can't be checked online — I'd like 30 minutes with the IT/AFC team to discuss an authorised data path. Demo: {{LIVE_URL}}
+> can't be checked online — I'd like 30 minutes with the IT/AFC team to discuss an authorised data path. Demo: https://theprabhanshu-dev.github.io/metrobalance/demo/
 
 **WhatsApp/SMS (first message, then stop):**
 
 > Hello — I'm a developer in Delhi. I built a working free web service that shows a Delhi Metro Smart Card balance and
 > history (no login, no app). DMRC's FAQ says this can't be checked online, so I'm requesting a 30-minute technical
-> review. Demo: {{LIVE_URL}} — thank you.
+> review. Demo: https://theprabhanshu-dev.github.io/metrobalance/demo/ — thank you.
 
 **At a station / counter (verbal, to staff):**
 

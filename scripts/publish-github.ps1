@@ -124,7 +124,7 @@ try {
     Write-Host "Default branch  : prd   (uat pushed first)"
     Write-Host ''
     Write-Host 'Paste these into the DMRC e-mail:' -ForegroundColor Cyan
-    Write-Host ('  Live demo : {{LIVE_URL}}')
+    Write-Host ('  Live demo : https://theprabhanshu-dev.github.io/metrobalance/demo/')
     Write-Host ("  Deck      : https://$user.github.io/$RepoName/")
     Write-Host ("  Repo      : https://github.com/$user/$RepoName")
 }

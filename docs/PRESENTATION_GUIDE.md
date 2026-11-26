@@ -15,9 +15,9 @@ click the dots to jump · deep links like `#7` open a specific slide.
 ## Before you present (15-minute checklist)
 
 - [ ] Deck opens on the presentation laptop with `F` fullscreen (no browser chrome).
-- [ ] Live app reachable at `{{LIVE_URL}}` — open it in a second tab, pre-loaded on `/Card?cardNumber=DMRC-DEMO-1001`.
+- [ ] Live app reachable at `https://theprabhanshu-dev.github.io/metrobalance/demo/` — open it in a second tab and pre-select the demo card **DMRC-DEMO-1001** (the chips under the input make this one click).
 - [ ] Internet fallback ready: the deck is fully offline-capable; the live demo needs the network.
-- [ ] Swagger tab pre-loaded at `{{LIVE_URL}}/swagger`.
+- [ ] API tab pre-loaded at `https://theprabhanshu-dev.github.io/metrobalance/demo/#api` (it shows the real JSON the application returns). If you are running the .NET build locally, the interactive Swagger UI is at `http://localhost:5080/swagger`.
 - [ ] PDF copy of the deck attached to the e-mail (in case they want to forward it).
 - [ ] One-page proposal (`docs/DMRC_PROPOSAL.md` exported) in your folder as a printed backup.
 - [ ] You have read [DMRC_CONTACTS.md](DMRC_CONTACTS.md) — know who is in the room and what they own.

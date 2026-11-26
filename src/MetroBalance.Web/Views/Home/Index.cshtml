@@ -1,3 +1,4 @@
+@model MetroBalance.Web.Models.HomeIndexViewModel
 @{
     ViewData["Title"] = "Delhi Metro Smart Card Balance Checker";
 }
@@ -53,22 +54,22 @@
                     <div class="d-flex align-items-center justify-content-between mt-1 mb-3">
                         <div>
                             <div style="font-size:.78rem;color:rgba(255,255,255,.55);">Card holder</div>
-                            <div style="font-weight:600;">Aarav Sharma</div>
+                            <div style="font-weight:600;">@Model.CardHolderName</div>
                         </div>
                         <div class="text-end">
                             <div style="font-size:.78rem;color:rgba(255,255,255,.55);">Card type</div>
-                            <div style="font-weight:600;">Silver</div>
+                            <div style="font-weight:600;">@Model.CardType</div>
                         </div>
                     </div>
                     <div class="hero-visual__label mb-1">Money left on the card</div>
-                    <div class="hero-visual__amount">&#8377; 425.50</div>
+                    <div class="hero-visual__amount">@Model.BalanceFormatted</div>
                     <div class="hero-visual__row mt-3">
                         <span>Last journey</span>
-                        <span>Rajiv Chowk &rarr; Central Secretariat</span>
+                        <span>@Model.LastJourney</span>
                     </div>
                     <div class="hero-visual__row">
                         <span>Last updated</span>
-                        <span>26 Nov 2026, 08:12 AM</span>
+                        <span>@Model.LastUpdatedFormatted</span>
                     </div>
                     <div class="line-strip">
                         <span class="line-chip line-chip--blue">Blue</span>

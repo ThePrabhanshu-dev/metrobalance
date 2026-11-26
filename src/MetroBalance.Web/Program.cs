@@ -16,6 +16,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// UseDefaultFiles lets folder URLs (for example /demo/) resolve to their
+// index.html, exactly the way the GitHub Pages copy of the demo behaves.
+app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseRouting();
 
