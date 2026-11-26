@@ -11,9 +11,11 @@ opened are the ones that read like an engineer who did the homework.
 | Token | What it is | Value (already filled in) |
 |---|---|---|
 | `{{DECK_URL}}` | Shareable link to the 13-slide deck (GitHub Pages) | `https://theprabhanshu-dev.github.io/metrobalance/` |
+| `{{PREVIEW_URL}}` | Shareable link to the **website preview document** (real screenshots of every screen) | `https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html` |
 | `{{LIVE_URL}}` | Live application URL — fill this with wherever you host the app, or present from `http://localhost:5080` | `https://<your-host>/` |
 | `{{REPO_URL}}` | Source-code repository | `https://github.com/ThePrabhanshu-dev/metrobalance` |
 | `{{PDF_ATTACH}}` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` (in `docs/`, ready to attach) |
+| `{{PREVIEW_ATTACH}}` | The website preview document exported to PDF | `MetroBalance-Website-Preview.pdf` (in `docs/`, ready to attach) |
 | `{{CPPP_ID}}` | Your CPPP / eTenders vendor registration ID (once registered) | `…` |
 | `{{YOUR_NAME}}`, `{{YOUR_PHONE}}`, `{{YOUR_EMAIL}}` | Your details | |
 | `{{DECK_PATH}}` | Where the deck is hosted, for the offline copy | `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` |
@@ -24,6 +26,7 @@ opened are the ones that read like an engineer who did the homework.
 
 * Deck (in-app): `/showcase`
 * Deck (standalone, offline, single file): `/presentations/dmrc-proposal.html`
+* **Website preview document (screenshots of every screen): `/previews/website-preview.html`**
 * Live balance check: `/Card?cardNumber=DMRC-DEMO-1001`
 * Balance-only answer: `/Card?cardNumber=DMRC-DEMO-1001&mode=amount`
 * Real-card guidance: `/guide`
@@ -33,9 +36,11 @@ opened are the ones that read like an engineer who did the homework.
 **Checklist before the first send**
 
 - [ ] Deck link opens on a phone (test in incognito).
+- [ ] `{{PREVIEW_URL}}` opens and every screenshot loads (12 images).
 - [ ] `{{LIVE_URL}}` returns 200 and the balance demo works.
 - [ ] The e-mail does **not** claim any live balance is real.
-- [ ] Attach `docs/MetroBalance-DMRC-Proposal.pdf` as well as the link (some officials block links).
+- [ ] Attach `docs/MetroBalance-DMRC-Proposal.pdf` **and** `docs/MetroBalance-Website-Preview.pdf` as well as the
+      links (some officials block links). Combined size ≈ 5 MB — if the mail bounces, attach the preview only.
 - [ ] The body is under ~220 words — long e-mails get skimmed, not read.
 - [ ] You have read [DMRC_CONTACTS.md](DMRC_CONTACTS.md) and re-verified the recipient's e-mail today.
 - [ ] Send **one recipient at a time**, from a real (non-free-mail) address, with your name in the signature.
@@ -76,6 +81,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > its recharge history and its journey ledger. It is running today, and the whole thing can be reviewed in one link:
 >
 > • 13-slide proposal deck (with a live walkthrough inside): {{DECK_URL}}
+> • Website preview — every screen of the site with real screenshots: {{PREVIEW_URL}}
 > • Live application: {{LIVE_URL}}
 > • API documentation: {{LIVE_URL}}/swagger
 > • Source code (MIT-licensed, public): {{REPO_URL}}
@@ -96,7 +102,8 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > no personal data collected (card numbers are anonymous by design, as DMRC itself states). The code is MIT-licensed and
 > can be hosted, audited, forked or discontinued by DMRC at any time.
 >
-> I have also attached a one-page summary (deck PDF). If a short call is easier than a review, I am happy to send the
+> I have also attached a one-page summary (deck PDF) and a screen-by-screen preview of the website
+> (`{{PREVIEW_ATTACH}}`). If a short call is easier than a review, I am happy to send the
 > agenda in advance.
 >
 > Thank you for your time.
@@ -119,7 +126,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > DMRC's Smart Card FAQ says plainly that a card balance cannot be checked online, so riders queue at machines to read a
 > number they already know. I have built a complete, working **Smart Card enquiry service** — balance, recharge history
 > and journey ledger, in rupees, on any phone, with no login and no app. It is live today: {{LIVE_URL}}, with a
-> 13-slide proposal here: {{DECK_URL}} and the source code at {{REPO_URL}}.
+> 13-slide proposal here: {{DECK_URL}}, a screen-by-screen preview of the site here: {{PREVIEW_URL}}, and the source code at {{REPO_URL}}.
 >
 > Why it belongs with Business Development: DMRC already permits named third parties to sell on its channels (Delhi
 > Metro Sarthi App, Paytm, PhonePe, One Delhi, Amazon, IRCTC). This is the **read-only enquiry** counterpart — it adds no
@@ -175,7 +182,7 @@ Avoid: *"URGENT"*, *"Best solution"*, *"10x growth"*, *"free forever"*, anything
 > 3. 10 min — where an authorised data feed would connect (the architecture is already seam-ready).
 > 4. 5 min — what a UAT pilot would look like, and what it would cost DMRC (nothing).
 >
-> The build, the API documentation and the source code are available here: {{LIVE_URL}} · {{DECK_URL}} · {{REPO_URL}}.
+> The build, the API documentation and the source code are available here: {{LIVE_URL}} · {{DECK_URL}} · {{PREVIEW_URL}} · {{REPO_URL}}.
 >
 > Would any of {{TWO_OR_THREE_SLOTS}} suit you? I am happy to work around your team's timings, and to send the agenda
 > in advance.

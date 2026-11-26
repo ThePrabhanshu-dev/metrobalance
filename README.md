@@ -34,9 +34,15 @@ D:\Metro
 │   ├── OUTREACH_EMAIL.md
 │   ├── PRESENTATION_GUIDE.md
 │   ├── MetroBalance-DMRC-Proposal.pdf   # 13-slide deck as PDF (e-mail attachment)
+│   ├── MetroBalance-Website-Preview.pdf # website preview document as PDF (e-mail attachment)
+│   ├── previews/
+│   │   ├── website-preview.html          # screen-by-screen preview document (real screenshots)
+│   │   └── screenshots/*.jpg             # 12 real captures of the running site
 │   └── index.html                        # deck copy served by GitHub Pages
 ├── scripts/
-│   ├── sync-docs.ps1                     # copies the deck into docs/ for GitHub Pages
+│   ├── sync-docs.ps1                     # copies the deck + preview into docs/ for GitHub Pages
+│   ├── export-pdf.ps1                    # deck -> PDF (headless Chrome)
+│   ├── export-preview-pdf.ps1            # website preview document -> PDF (headless Chrome)
 │   └── publish-github.ps1                # gh repo create -> push uat -> push prd -> enable Pages
 ├── .github/workflows/pages.yml           # deploys docs/ to GitHub Pages on push to prd
 └── src
@@ -130,6 +136,23 @@ data path. Everything is in [`docs/`](docs/):
 | [`docs/PRESENTATION_GUIDE.md`](docs/PRESENTATION_GUIDE.md) | Slide-by-slide speaker notes, timings, a one-page cheat sheet and the ten hardest questions with answers |
 | [`docs/index.html`](docs/index.html) | Copy of the deck, published to GitHub Pages (shareable link) |
 | [`docs/MetroBalance-DMRC-Proposal.pdf`](docs/MetroBalance-DMRC-Proposal.pdf) | The deck as a 13-page PDF — attach this to the e-mail |
+| [`docs/previews/website-preview.html`](docs/previews/website-preview.html) | **Website preview document** — screen-by-screen gallery of the running site with real screenshots |
+| [`docs/MetroBalance-Website-Preview.pdf`](docs/MetroBalance-Website-Preview.pdf) | The preview document as a 33-page PDF — attach alongside the deck |
+
+### The website preview document
+
+A separate, self-contained HTML document that shows DMRC exactly what the website looks like — real screenshots
+of every screen, taken from the running application (not mock-ups).
+
+* In-app: **`/previews/website-preview.html`** (also linked from the nav bar as **Preview** and from `/showcase`).
+* Standalone file: [`docs/previews/website-preview.html`](docs/previews/website-preview.html) — no CDN, no external
+  fonts, prints cleanly to PDF.
+* Contents: hero + KPI strip → sticky table of contents → 8 desktop screens (home, card enquiry result,
+  balance-only mode, real-card guidance, FAQ, About, DMRC guide, showcase) → feature→screen mapping table →
+  3 mobile screens → Swagger card → an honesty section stating that all balances are DEMO DATA → footer.
+* Screenshots: 12 JPEGs in [`docs/previews/screenshots/`](docs/previews/screenshots) (2.1 MB total).
+* On GitHub Pages the document swaps its app-local links for static fallbacks automatically, so it also works
+  from the published site where no MVC routes exist.
 
 ### The showcase deck
 
@@ -147,11 +170,16 @@ data path. Everything is in [`docs/`](docs/):
 | --- | --- |
 | Showcase deck (GitHub Pages) | <https://theprabhanshu-dev.github.io/metrobalance/> |
 | Deck, direct file | <https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html> |
+| **Website preview document** | <https://theprabhanshu-dev.github.io/metrobalance/previews/website-preview.html> |
+| Deck PDF (download) | <https://theprabhanshu-dev.github.io/metrobalance/MetroBalance-DMRC-Proposal.pdf> |
+| Website preview PDF (download) | <https://theprabhanshu-dev.github.io/metrobalance/MetroBalance-Website-Preview.pdf> |
 | Source code (public repo) | <https://github.com/ThePrabhanshu-dev/metrobalance> |
 | Proposal document (Markdown) | <https://github.com/ThePrabhanshu-dev/metrobalance/blob/prd/docs/DMRC_PROPOSAL.md> |
 
 The deck link is the one to paste into the e-mail — it needs no login and no local setup.
-Attach [`docs/DMRC_PROPOSAL.md`](docs/DMRC_PROPOSAL.md) (exported to PDF) as the formal proposal.
+Send the **preview document link** in the same e-mail so the recipient can see the actual screens before
+opening the attachment. Attach [`docs/MetroBalance-DMRC-Proposal.pdf`](docs/MetroBalance-DMRC-Proposal.pdf)
+and [`docs/MetroBalance-Website-Preview.pdf`](docs/MetroBalance-Website-Preview.pdf) as the two attachments.
 
 ### Publishing to GitHub (UAT first, PRD as the main branch)
 

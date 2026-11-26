@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MetroBalance — Website Preview &amp; Screen Guide</title>
+<meta name="description" content="Screen-by-screen preview of the MetroBalance Delhi Metro Smart Card balance website, with real captures of every page." />
+<style>
+  :root{
+    --navy:#0b1f3a; --navy2:#122c4f; --blue:#0d6efd; --cyan:#22d3ee; --green:#10b981;
+    --amber:#f59e0b; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f5f7fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .ribbon{background:linear-gradient(90deg,#7c2d12,#b45309);color:#fff;font-size:.8rem;letter-spacing:.04em;
+    text-align:center;padding:.45rem 1rem;font-weight:600;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,#14315a 55%,#0a1c34 100%);color:#e6edf6;padding:56px 0 52px;}
+  .eyebrow{display:inline-block;background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.35);color:#a5f3fc;
+    border-radius:999px;padding:.3rem .9rem;font-size:.78rem;font-weight:600;letter-spacing:.04em;}
+  h1{font-size:44px;line-height:1.1;margin:.9rem 0 .6rem;font-weight:800;letter-spacing:-.02em;}
+  .grad{background:linear-gradient(90deg,#67e8f9,#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  header.hero p{font-size:19px;color:rgba(230,237,246,.82);max-width:56rem;margin:0 0 1.2rem;}
+  .kpis{display:flex;flex-wrap:wrap;gap:16px;margin-top:26px;}
+  .kpi{flex:1 1 180px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;}
+  .kpi .k{font-size:26px;font-weight:800;color:#67e8f9;}
+  .kpi .l{font-size:.86rem;color:rgba(230,237,246,.72);}
+  nav.toc{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;}
+  nav.toc .wrap{display:flex;gap:18px;overflow-x:auto;padding-top:.7rem;padding-bottom:.7rem;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;}
+  nav.toc a:hover{color:var(--blue);}
+  section{padding:46px 0 8px;}
+  h2{font-size:30px;font-weight:800;letter-spacing:-.015em;margin:0 0 .4rem;}
+  h3{font-size:19px;font-weight:700;margin:0 0 .3rem;}
+  .lead{color:var(--muted);font-size:17px;margin:0 0 26px;max-width:56rem;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.94rem;}
+  th{background:#f1f5f9;text-align:left;padding:12px 16px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:#475569;border-bottom:1px solid var(--line);}
+  td{padding:12px 16px;border-bottom:1px solid #eef2f7;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  code{background:#f1f5f9;border:1px solid var(--line);border-radius:6px;padding:.1rem .4rem;font-size:.88em;font-family:Consolas,"Cascadia Mono",monospace;}
+  .shot{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:34px;
+    box-shadow:0 14px 34px rgba(11,31,58,.07);}
+  .shot__bar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);background:#fbfcfe;}
+  .dot{width:10px;height:10px;border-radius:50%;background:#e2e8f0;}
+  .shot__url{font-size:.84rem;color:var(--muted);font-family:Consolas,monospace;margin-left:6px;}
+  .shot__body{padding:18px 20px 22px;}
+  .shot__body p{margin:.3rem 0 0;color:#475569;font-size:.95rem;}
+  .shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;}
+  .shot--phone{max-width:420px;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 8px 22px rgba(11,31,58,.06);}
+  .card p,.card li{color:#475569;font-size:.95rem;margin:.35rem 0;}
+  ul{margin:.3rem 0;padding-left:1.1rem;}
+  .note{background:#fffbeb;border:1px solid #fcd34d;border-radius:14px;padding:16px 20px;margin:26px 0;font-size:.95rem;color:#78350f;}
+  footer{background:var(--navy);color:rgba(230,237,246,.8);margin-top:56px;padding:34px 0;font-size:.9rem;}
+  footer a{color:#7dd3fc;}
+  .btnrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;}
+  .btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;padding:.62rem 1.1rem;border-radius:10px;font-size:.94rem;}
+  .btn--ghost{background:transparent;border:1px solid rgba(255,255,255,.35);color:#e6edf6;}
+  @media print{
+    nav.toc{display:none;}
+    body{background:#fff;}
+    .shot{break-inside:avoid;page-break-inside:avoid;}
+    header.hero{padding:26px 0;}
+    h1{font-size:30px;}
+    .kpi .k{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon">DEMO DATA — Every screenshot below shows SIMULATED sample balances and transactions. No live DMRC record is displayed.</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Website Preview · for DMRC &amp; stakeholders</span>
+    <h1>MetroBalance <span class="grad">— how the website looks and works</span></h1>
+    <p>Real screen captures of the working MetroBalance application: the home page, the Smart Card balance enquiry, the balance-only view, the real-card guidance, FAQ, About, the Swagger API documentation, the in-app presentation, and the mobile layouts — all taken from the running build.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="k">12</div><div class="l">Real screen captures</div></div>
+      <div class="kpi"><div class="k">7</div><div class="l">Public pages</div></div>
+      <div class="kpi"><div class="k">7</div><div class="l">REST endpoints</div></div>
+      <div class="kpi"><div class="k">0</div><div class="l">Logins required</div></div>
+      <div class="kpi"><div class="k">0</div><div class="l">Databases or paid services</div></div>
+    </div>
+    <div class="btnrow">
+      <a class="btn" href="/presentations/dmrc-proposal.html" data-pages-href="../dmrc-proposal.html">Open the proposal deck</a>
+      <a class="btn btn--ghost" href="https://github.com/ThePrabhanshu-dev/metrobalance" data-pages-href="https://github.com/ThePrabhanshu-dev/metrobalance">Source code on GitHub</a>
+      <a class="btn btn--ghost" href="/swagger" data-pages-href="../dmrc-proposal.html">API documentation</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#screens">Screen-by-screen</a>
+    <a href="#features">Feature → screen map</a>
+    <a href="#mobile">Mobile</a>
+    <a href="#api">API</a>
+    <a href="#honesty">How the demo stays honest</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section id="screens">
+  <h2>Screen-by-screen preview</h2>
+  <p class="lead">Each capture below is an unmodified screenshot of the running MetroBalance site, taken from the local build. The URL bar shows the exact address a rider or reviewer would open.</p>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/ — Home</span></div>
+    <div class="shot__body">
+      <h3>Home — the landing page</h3>
+      <p>Premium hero with the Smart Card number input placed above the fold, one-tap access to the demo card numbers, and the three headline capabilities (balance in INR, recharge history, journey transactions). Every page carries a permanent <strong>DEMO DATA</strong> ribbon so a simulated balance can never be mistaken for a live one.</p>
+      <img src="screenshots/01-home.jpg" alt="MetroBalance home page" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/Card?cardNumber=DMRC-DEMO-1001 — Card enquiry result</span></div>
+    <div class="shot__body">
+      <h3>Card enquiry — full statement</h3>
+      <p>The core screen. After a card number is submitted the page shows the available balance in Indian Rupees, the card holder summary (holder, card type, status, total recharged, issued-on date) and the <strong>last balance update</strong> timestamp. Below it are the <strong>recharge history</strong> (amount, channel, date, running balance) and the <strong>journey transaction history</strong> (date &amp; time, from → to station, line, fare).</p>
+      <img src="screenshots/02-card-enquiry-result.jpg" alt="Card enquiry result with balance, recharge history and journey transactions" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/Card?cardNumber=DMRC-DEMO-1001&amp;mode=amount — Balance only</span></div>
+    <div class="shot__body">
+      <h3>Balance-only mode</h3>
+      <p>A single-screen view for riders who only want the amount: one large balance figure, the card number and the last-update stamp. This is the lightest possible page to load on a phone at a gate and it is also available as the standalone API endpoint <code>/api/cards/{cardNumber}/amount</code>.</p>
+      <img src="screenshots/03-balance-only.jpg" alt="Balance only view" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/Card?cardNumber=8177769600175160 — Real-card guidance</span></div>
+    <div class="shot__body">
+      <h3>Real card numbers — honest guidance instead of a fake balance</h3>
+      <p>When a rider enters a genuine card number, the application never invents a balance. Because DMRC does not publish an online balance service, the page explains the situation, shows how to read the balance at any station (Add Value Machine inquiry or the Customer Care counter), and links to the official DMRC top-up portal, the DMRC Smart Card portal, the Delhi Metro website, the Sarthi app and the Chetna chatbot.</p>
+      <img src="screenshots/04-real-card-guidance.jpg" alt="Guidance page for a real card number" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/Home/Faq — FAQ</span></div>
+    <div class="shot__body">
+      <h3>FAQ</h3>
+      <p>Answers the questions riders and reviewers actually ask: is the balance live, is an account needed, is the data stored, what happens with a wrong card number, and how a future DMRC integration would work.</p>
+      <img src="screenshots/05-faq.jpg" alt="Frequently asked questions page" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/Home/About — About</span></div>
+    <div class="shot__body">
+      <h3>About — the architecture at a glance</h3>
+      <p>Explains the four project principles (provider abstraction, zero infrastructure, one source of truth, honest by default), shows the solution tree and the <code>IMetroCardProvider</code> seam where an authorised DMRC implementation would be plugged in — no controller, view or service changes required.</p>
+      <img src="screenshots/06-about.jpg" alt="About page with architecture" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/guide — Real card guide</span></div>
+    <div class="shot__body">
+      <h3>Real card guide</h3>
+      <p>A dedicated page for riders holding a physical card: how to find the Engraved ID, how to top up officially, and where to check the balance offline. This is the page DMRC can publish unchanged as a help article.</p>
+      <img src="screenshots/07-guide.jpg" alt="Real card guide page" loading="lazy" />
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/showcase — In-app presentation</span></div>
+    <div class="shot__body">
+      <h3>Showcase — the proposal deck inside the site</h3>
+      <p>The 13-slide proposal deck is embedded in the running application, so a reviewer can read the whole pitch without leaving the site. Arrow keys navigate, <strong>F</strong> toggles fullscreen and <strong>P</strong> exports a PDF.</p>
+      <img src="screenshots/08-showcase.jpg" alt="Showcase page with the embedded deck" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <h2>Feature → screen map</h2>
+  <p class="lead">Every requirement of the brief, and exactly where a reviewer can see it working.</p>
+  <table>
+    <thead><tr><th>Requirement</th><th>Where it is visible</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td>Modern, premium, responsive homepage</td><td><code>/</code></td><td>Screenshot 01 + mobile 10</td></tr>
+      <tr><td>Smart Card number input</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
+      <tr><td>Check card balance</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
+      <tr><td>Balance displayed in Indian Rupees</td><td><code>/Card</code>, <code>/Card?mode=amount</code></td><td>Screenshots 02, 03</td></tr>
+      <tr><td>Recharge history</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
+      <tr><td>Journey transaction history</td><td><code>/Card</code></td><td>Screenshot 02</td></tr>
+      <tr><td>Last balance update</td><td><code>/Card</code></td><td>Screenshot 02, 03</td></tr>
+      <tr><td>Card validation &amp; error handling</td><td><code>/Card</code> (real-card guidance)</td><td>Screenshot 04</td></tr>
+      <tr><td>FAQ and About pages</td><td><code>/Home/Faq</code>, <code>/Home/About</code></td><td>Screenshots 05, 06</td></tr>
+      <tr><td>Mobile-friendly interface</td><td>All pages at 414 px</td><td>Screenshots 10–12</td></tr>
+      <tr><td>Swagger API documentation</td><td><code>/swagger</code></td><td>Screenshot 09</td></tr>
+      <tr><td>Presentation for stakeholders</td><td><code>/showcase</code></td><td>Screenshot 08</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="mobile">
+  <h2>Mobile layout</h2>
+  <p class="lead">The same build at a 414 px viewport — the width of a typical Indian smartphone. The single-column layout, the collapsible navigation and the large tap targets are identical to the desktop behaviour.</p>
+
+  <div class="grid2">
+    <div class="shot shot--phone">
+      <div class="shot__bar"><span class="dot"></span><span class="shot__url">/ — Mobile</span></div>
+      <div class="shot__body"><h3>Mobile home</h3><img src="screenshots/10-mobile-home.jpg" alt="Mobile home page" loading="lazy" /></div>
+    </div>
+    <div class="shot shot--phone">
+      <div class="shot__bar"><span class="dot"></span><span class="shot__url">/Card — Mobile result</span></div>
+      <div class="shot__body"><h3>Mobile card result</h3><img src="screenshots/11-mobile-card-result.jpg" alt="Mobile card enquiry result" loading="lazy" /></div>
+    </div>
+    <div class="shot shot--phone">
+      <div class="shot__bar"><span class="dot"></span><span class="shot__url">/Card — Mobile real card</span></div>
+      <div class="shot__body"><h3>Mobile guidance</h3><img src="screenshots/12-mobile-enquiry.jpg" alt="Mobile guidance page" loading="lazy" /></div>
+    </div>
+  </div>
+</section>
+
+<section id="api">
+  <h2>REST API (Swagger)</h2>
+  <p class="lead">The same data is available as a documented JSON API, so a DMRC portal, a kiosk, a chatbot or a mobile app could consume it directly.</p>
+  <div class="shot">
+    <div class="shot__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="shot__url">/swagger — Swagger UI</span></div>
+    <div class="shot__body">
+      <h3>Swagger / OpenAPI documentation</h3>
+      <p>Seven endpoints under <code>/api/cards</code> — <code>balance</code>, <code>amount</code>, <code>statement</code>, <code>enquiry</code>, <code>recharges</code>, <code>transactions</code> and <code>demo-numbers</code> — each with typed request and response schemas and uniform error envelopes. Every response is flagged as simulated demo data in the API description itself.</p>
+      <img src="screenshots/09-swagger.jpg" alt="Swagger UI" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<section id="honesty">
+  <h2>How the demo stays honest</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Nothing is scraped</h3>
+      <p>MetroBalance never calls DMRC, never scrapes a website and never invents an endpoint. All values come from an in-memory collection created at start-up.</p>
+    </div>
+    <div class="card">
+      <h3>Every surface is labelled</h3>
+      <p>A permanent ribbon on every page, a “DEMO DATA” tag on every balance card, and an explicit disclaimer in the API description and the footer.</p>
+    </div>
+    <div class="card">
+      <h3>Real cards get guidance, not a fake number</h3>
+      <p>A genuine card number returns an explanation and the official offline channels instead of a fabricated balance.</p>
+    </div>
+    <div class="card">
+      <h3>Ready for an authorised integration</h3>
+      <p>A new <code>IMetroCardProvider</code> implementation can be registered in the DI container. The UI, the API and the documentation stay untouched.</p>
+    </div>
+  </div>
+  <div class="note">
+    <strong>What DMRC would need to provide:</strong> an authorised, read-only balance and transaction endpoint (or a sanctioned file/feed), plus a documented card-number format. MetroBalance would then register a <code>DmrcMetroCardProvider</code> and the same UI would show live values.
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><strong>MetroBalance</strong> — a free, open, demo-only reference implementation for Delhi Metro Smart Card enquiries. Built with ASP.NET Core MVC &amp; Web API on 100% free and open-source technology.</p>
+    <p>Not affiliated with, endorsed by, or connected to DMRC or the Delhi Metro Rail Corporation. All balances and transactions shown are simulated samples.</p>
+    <p>
+      <a href="/presentations/dmrc-proposal.html" data-pages-href="../dmrc-proposal.html">Proposal deck</a> ·
+      <a href="/swagger" data-pages-href="../dmrc-proposal.html">API docs</a> ·
+      <a href="/" data-pages-href="../index.html">Live app</a> ·
+      <a href="/Home/Guide" data-pages-href="../index.html">Real card guide</a>
+    </p>
+    <script>
+      // When this document is published on GitHub Pages the application routes do not
+      // exist, so every app-local link falls back to the statically published copy.
+      (function () {
+        if (!/github\.io$/i.test(location.hostname)) { return; }
+        document.querySelectorAll('a[data-pages-href]').forEach(function (a) {
+          a.setAttribute('href', a.getAttribute('data-pages-href'));
+        });
+      })();
+    </script>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -38,5 +38,16 @@ if (-not (Test-Path $docsDir)) {
 Copy-Item -Path $deckSource -Destination (Join-Path $docsDir 'index.html') -Force
 Copy-Item -Path $deckSource -Destination (Join-Path $docsDir 'dmrc-proposal.html') -Force
 
+# Website preview document (screen-by-screen captures of the running site).
+$previewSource = Join-Path $ProjectRoot 'src\MetroBalance.Web\wwwroot\previews'
+$previewTarget = Join-Path $docsDir 'previews'
+if (Test-Path $previewSource) {
+    if (Test-Path $previewTarget) {
+        Remove-Item -Path $previewTarget -Recurse -Force
+    }
+    Copy-Item -Path $previewSource -Destination $previewTarget -Recurse -Force
+    Write-Host "Synced website preview -> docs\previews\" -ForegroundColor Green
+}
+
 Write-Host "Synced deck -> docs\index.html and docs\dmrc-proposal.html" -ForegroundColor Green
 Get-ChildItem $docsDir | Select-Object Name, Length | Format-Table -AutoSize
