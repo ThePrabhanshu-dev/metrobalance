@@ -5,6 +5,7 @@ on:
     branches: [ prd ]
     paths:
       - 'docs/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -33,6 +34,13 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './docs'
+
+      # The Pages artifact is occasionally not yet visible to the artifact
+      # listing API when deploy-pages starts, which fails the run with
+      # "No artifacts named github-pages were found". Give the metadata a
+      # moment to settle before deploying.
+      - name: Wait for artifact metadata
+        run: sleep 20
 
       - name: Deploy to GitHub Pages
         id: deployment
