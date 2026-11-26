@@ -33,6 +33,7 @@ D:\Metro
 │   ├── DMRC_CONTACTS.md
 │   ├── OUTREACH_EMAIL.md
 │   ├── PRESENTATION_GUIDE.md
+│   ├── MetroBalance-DMRC-Proposal.pdf   # 13-slide deck as PDF (e-mail attachment)
 │   └── index.html                        # deck copy served by GitHub Pages
 ├── scripts/
 │   ├── sync-docs.ps1                     # copies the deck into docs/ for GitHub Pages
@@ -128,6 +129,7 @@ data path. Everything is in [`docs/`](docs/):
 | [`docs/OUTREACH_EMAIL.md`](docs/OUTREACH_EMAIL.md) | E-mail templates: primary outreach to ED/IT, commercial variant to Director/BD, PR variant, meeting request, 7-day and 21-day follow-ups, LinkedIn/WhatsApp versions, do-nots |
 | [`docs/PRESENTATION_GUIDE.md`](docs/PRESENTATION_GUIDE.md) | Slide-by-slide speaker notes, timings, a one-page cheat sheet and the ten hardest questions with answers |
 | [`docs/index.html`](docs/index.html) | Copy of the deck, published to GitHub Pages (shareable link) |
+| [`docs/MetroBalance-DMRC-Proposal.pdf`](docs/MetroBalance-DMRC-Proposal.pdf) | The deck as a 13-page PDF — attach this to the e-mail |
 
 ### The showcase deck
 

@@ -13,7 +13,7 @@ opened are the ones that read like an engineer who did the homework.
 | `{{DECK_URL}}` | Shareable link to the 13-slide deck (GitHub Pages) | `https://theprabhanshu-dev.github.io/metrobalance/` |
 | `{{LIVE_URL}}` | Live application URL — fill this with wherever you host the app, or present from `http://localhost:5080` | `https://<your-host>/` |
 | `{{REPO_URL}}` | Source-code repository | `https://github.com/ThePrabhanshu-dev/metrobalance` |
-| `{{PDF_ATTACH}}` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` |
+| `{{PDF_ATTACH}}` | The deck exported to PDF | `MetroBalance-DMRC-Proposal.pdf` (in `docs/`, ready to attach) |
 | `{{CPPP_ID}}` | Your CPPP / eTenders vendor registration ID (once registered) | `…` |
 | `{{YOUR_NAME}}`, `{{YOUR_PHONE}}`, `{{YOUR_EMAIL}}` | Your details | |
 | `{{DECK_PATH}}` | Where the deck is hosted, for the offline copy | `https://theprabhanshu-dev.github.io/metrobalance/dmrc-proposal.html` |
@@ -35,7 +35,7 @@ opened are the ones that read like an engineer who did the homework.
 - [ ] Deck link opens on a phone (test in incognito).
 - [ ] `{{LIVE_URL}}` returns 200 and the balance demo works.
 - [ ] The e-mail does **not** claim any live balance is real.
-- [ ] Attach the PDF as well as the link (some officials block links).
+- [ ] Attach `docs/MetroBalance-DMRC-Proposal.pdf` as well as the link (some officials block links).
 - [ ] The body is under ~220 words — long e-mails get skimmed, not read.
 - [ ] You have read [DMRC_CONTACTS.md](DMRC_CONTACTS.md) and re-verified the recipient's e-mail today.
 - [ ] Send **one recipient at a time**, from a real (non-free-mail) address, with your name in the signature.
