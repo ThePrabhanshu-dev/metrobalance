@@ -1,0 +1,259 @@
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+<section class="about-hero">
+    <div class="container">
+        <span class="hero__eyebrow">Help centre</span>
+        <h1 class="h2 fw-bold mt-3 mb-2">Frequently asked questions</h1>
+        <p class="mb-0 opacity-75" style="max-width:44rem;">
+            Everything about using MetroBalance, the demo data it serves and how the API can be consumed.
+        </p>
+    </div>
+</section>
+
+<section class="section section--tight">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="accordion faq-accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Is the balance shown on this site real?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No. Every balance, recharge and journey on MetroBalance is <strong>simulated demo data</strong>
+                                generated in memory when the application starts. The site never contacts DMRC, never scrapes any
+                                website and never stores personal information. Results are labelled &ldquo;DEMO DATA&rdquo; throughout.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Where do I find my Smart Card number?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The number is printed on the front of your card and on your transaction receipt. In this demo you can
+                                use any of the sample numbers listed on the homepage, for example
+                                <code>DMRC-DEMO-1001</code>. Numbers are matched case-insensitively and spaces are ignored.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Do I need to log in or register?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No. Checking a public card balance requires no account, no OTP and no payment. Open the homepage,
+                                type the card number and press &ldquo;Check balance&rdquo;. The page works on any device and the
+                                result is rendered instantly.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                What is the difference between recharge history and journey transactions?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Recharge history lists the top-ups credited to the card &mdash; amount, channel (app, internet
+                                banking, ATM, counter) and the mode used, along with the resulting balance. Journey transactions
+                                list the fare deductions applied at the gates, showing the entry and exit stations, the metro line,
+                                the fare slab and the balance left after each trip.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                What happens if I enter an invalid or unknown card number?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The card number is validated before any lookup happens. Numbers that are too short, contain
+                                unsupported characters or are simply not known produce a clear error message instead of a blank
+                                result. Cards that exist but are blocked, expired or inactive are reported with their status
+                                rather than a balance.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                How is the balance shown in Indian Rupees?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                All amounts are stored as decimal rupees and formatted with the <code>en-IN</code> culture, so
+                                you see values such as <code>&#8377; 1,23,456.00</code> using the Indian lakh/crore grouping
+                                convention. Every API response also carries an <code>INR</code> currency code.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                Can I use MetroBalance as an API in my own project?
+                            </button>
+                        </h2>
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes. Swagger UI is served from the running application at <code>/swagger</code>. The endpoints are
+                                <code>GET /api/cards/{cardNumber}/balance</code>,
+                                <code>/api/cards/{cardNumber}/recharges</code>,
+                                <code>/api/cards/{cardNumber}/transactions</code>,
+                                <code>/api/cards/{cardNumber}/statement</code>,
+                                <code>/api/cards/{cardNumber}/enquiry</code> and
+                                <code>/api/cards/{cardNumber}/amount</code>, plus
+                                <code>GET /api/cards/demo-numbers</code>. Every response uses the same
+                                <code>{ success, message, data, errorCode, timestampUtc }</code> envelope.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                                Does the app need a database to run?
+                            </button>
+                        </h2>
+                        <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No. Cards are held in an in-memory <code>Dictionary</code> inside a singleton store and journeys
+                                and recharges in <code>List</code> collections. Nothing is persisted, so restarting the application
+                                resets the demo data to its generated state.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
+                                Can this be connected to a real DMRC service?
+                            </button>
+                        </h2>
+                        <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The architecture is designed for it. All card data flows through the
+                                <code>IMetroCardProvider</code> interface, and today that is satisfied by
+                                <code>MockMetroCardProvider</code>. When an authorised DMRC API is available, implement the same
+                                interface and register the new implementation in the dependency injection container. The
+                                controllers, services and views stay exactly as they are. No endpoint is invented or scraped in
+                                this project.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
+                                Is there any cost or hidden charge?
+                            </button>
+                        </h2>
+                        <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                None. MetroBalance is built entirely on free and open-source technology: .NET 10, ASP.NET Core
+                                MVC, ASP.NET Core Web API, Bootstrap 5 and Swagger. There is no database, no paid API, no
+                                subscription and no tracking or advertising code.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq11">
+                                Where can I check my <em>real</em> Delhi Metro card balance?
+                            </button>
+                        </h2>
+                        <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                DMRC&rsquo;s own customer FAQ answers the question &ldquo;Can I check my card balance online?&rdquo;
+                                with a flat <strong>&ldquo;No, you cannot check your card balance online.&rdquo;</strong> The
+                                balance lives on the card itself, not on a public server-side record. The official ways to read it are:
+                                <ul class="mb-2">
+                                    <li>Tap the card on the <strong>Add Value Machine (AVM)</strong> near the Customer Care / EFO counter
+                                        at any metro station and press the <em>Inquiry</em> button.</li>
+                                    <li>Ask at the station Customer Care or EFO counter.</li>
+                                    <li>Check the balance while topping up at a TVM / AVM.</li>
+                                </ul>
+                                The number printed on the back of the card is the <strong>Engraved ID</strong> (up to 11 digits) and
+                                is what you use for web top-ups. MetroBalance therefore cannot show a live balance for a real card;
+                                it deliberately serves labelled DEMO DATA instead of guessing or scraping any endpoint.
+                                If you enter a real card number on the homepage, the site identifies the number format and
+                                shows these same instructions plus official DMRC links &mdash; it never shows a made-up balance.
+                                See the <a href="@Url.Action("Guide", "Home")">Real Card Guide</a> for the full walkthrough.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq12">
+                                How do I check <em>only</em> the balance without the full statement?
+                            </button>
+                        </h2>
+                        <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Use the <strong>Balance only</strong> / <strong>Full statement</strong> switch above the card
+                                number box on the homepage or on the Check Balance page. <em>Balance only</em> returns a single
+                                card showing the available amount in rupees and the last balance update &mdash; no recharge list
+                                and no journey table. The same data is available directly from the API at
+                                <code>GET /api/cards/{cardNumber}/amount</code>.
+                                For a demo card the amount comes from the simulated dataset and is labelled
+                                <strong>DEMO DATA</strong>. For a real card the endpoint returns
+                                <code>balanceAvailableOnline: false</code> with <code>amount: null</code> and the DMRC policy
+                                note, because no online balance service is published &mdash; MetroBalance never invents a figure.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="panel p-4 mb-4">
+                    <h2 class="h6 fw-bold mb-3">Quick answers</h2>
+                    <dl class="row mb-0 small">
+                        <dt class="col-5 text-muted fw-semibold">Login needed?</dt>
+                        <dd class="col-7">No</dd>
+                        <dt class="col-5 text-muted fw-semibold">Database?</dt>
+                        <dd class="col-7">None &mdash; in-memory only</dd>
+                        <dt class="col-5 text-muted fw-semibold">Cost</dt>
+                        <dd class="col-7">Free</dd>
+                        <dt class="col-5 text-muted fw-semibold">Currency</dt>
+                        <dd class="col-7">INR (&#8377;)</dd>
+                        <dt class="col-5 text-muted fw-semibold">Data</dt>
+                        <dd class="col-7">Simulated demo data</dd>
+                        <dt class="col-5 text-muted fw-semibold">API docs</dt>
+                        <dd class="col-7"><a href="/swagger">/swagger</a></dd>
+                    </dl>
+                </div>
+
+                <div class="panel p-4">
+                    <h2 class="h6 fw-bold mb-2">Still stuck?</h2>
+                    <p class="text-muted small mb-3">
+                        Read the About page for a walkthrough of the architecture and the API, or open Swagger to try the
+                        endpoints directly.
+                    </p>
+                    <a class="btn btn-mb-primary w-100" asp-controller="Card" asp-action="Index">Check a card balance</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,163 @@
+@{
+    ViewData["Title"] = "About";
+}
+
+<section class="about-hero">
+    <div class="container">
+        <span class="hero__eyebrow">About MetroBalance</span>
+        <h1 class="h2 fw-bold mt-3 mb-2">A free, open reference implementation for Metro Smart Card enquiries</h1>
+        <p class="mb-0 opacity-75" style="max-width:48rem;">
+            MetroBalance demonstrates how a production-grade card enquiry service can be structured using
+            ASP.NET Core MVC and Web API &mdash; without a database, without paid services and without a login.
+        </p>
+    </div>
+</section>
+
+<section class="section section--tight">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="panel p-4 p-lg-5">
+                    <h2 class="h4 fw-bold mb-3">What this project is</h2>
+                    <p class="text-muted">
+                        MetroBalance is a demonstration web application for checking the balance and history of a
+                        Delhi Metro Smart Card. It ships with a polished, responsive front end built on ASP.NET Core
+                        MVC and Bootstrap 5, backed by a RESTful Web API documented with Swagger.
+                    </p>
+                    <p class="text-muted">
+                        All balances, recharges and journeys returned by the application are <strong>simulated demo
+                        samples</strong> generated in memory at start-up. No DMRC endpoint is contacted, no website is
+                        scraped and no personal data is collected or stored.
+                    </p>
+
+                    <h3 class="h5 fw-bold mt-4 mb-3">Design principles</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="step">
+                                <span class="step__num">1</span>
+                                <div>
+                                    <div class="fw-semibold">Provider abstraction</div>
+                                    <div class="text-muted small">A single <code>IMetroCardProvider</code> interface isolates where card data comes from.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step">
+                                <span class="step__num">2</span>
+                                <div>
+                                    <div class="fw-semibold">Zero infrastructure</div>
+                                    <div class="text-muted small">In-memory <code>List</code> and <code>Dictionary</code> collections replace any database.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step">
+                                <span class="step__num">3</span>
+                                <div>
+                                    <div class="fw-semibold">One source of truth</div>
+                                    <div class="text-muted small">MVC views and the Web API share the same application services.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="step">
+                                <span class="step__num">4</span>
+                                <div>
+                                    <div class="fw-semibold">Honest by default</div>
+                                    <div class="text-muted small">Every response is flagged as demo data so it can never be mistaken for a live balance.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="h5 fw-bold mt-4 mb-3">Project structure</h3>
+                    <pre class="code-block"><span class="c">// MetroBalance.sln</span>
+src/
+&#9500;&#9472; MetroBalance.Core/          <span class="c">// Models, contracts, interfaces, validation</span>
+   &#9500;&#9472; Models/
+   &#9500;&#9472; Contracts/
+   &#9500;&#9472; Interfaces/
+   &#9500;&#9472; Exceptions/
+&#9500;&#9472; MetroBalance.Infrastructure/ <span class="c">// Mock provider + in-memory store</span>
+   &#9500;&#9472; Data/
+   &#9500;&#9472; Providers/
+   &#9500;&#9472; Services/
+&#9500;&#9472; MetroBalance.Api/            <span class="c">// Web API + Swagger</span>
+   &#9500;&#9472; Controllers/
+   &#9500;&#9472; Extensions/
+&#9500;&#9472; MetroBalance.Web/            <span class="c">// ASP.NET Core MVC front end</span>
+   &#9500;&#9472; Controllers/
+   &#9500;&#9472; Views/
+   &#9500;&#9472; wwwroot/</pre>
+
+                    <h3 class="h5 fw-bold mt-4 mb-3">Ready for an authorised DMRC integration</h3>
+                    <p class="text-muted mb-3">
+                        The application talks to card data exclusively through
+                        <code>IMetroCardProvider</code>. Today that interface is implemented by
+                        <code>MockMetroCardProvider</code>, which serves clearly-labelled simulated records. When an
+                        authorised DMRC API becomes available, a new implementation can be registered in the DI
+                        container &mdash; no controller, view or service code needs to change.
+                    </p>
+                    <pre class="code-block"><span class="c">// MetroBalance.Core/Interfaces/IMetroCardProvider.cs</span>
+<span class="k">public interface</span> <span class="k">IMetroCardProvider</span>
+{
+    <span class="k">string</span> ProviderName { <span class="k">get</span>; }
+    <span class="k">bool</span> IsSimulated { <span class="k">get</span>; }
+    Task&lt;<span class="k">SmartCard</span>?&gt; GetCardAsync(<span class="k">string</span> cardNumber, CancellationToken ct = <span class="k">default</span>);
+    Task&lt;IReadOnlyList&lt;<span class="k">string</span>&gt;&gt; GetDemoCardNumbersAsync(CancellationToken ct = <span class="k">default</span>);
+}</pre>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="panel p-4 mb-4">
+                    <h2 class="h6 fw-bold mb-3">Architecture at a glance</h2>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="arch-node">
+                            <span class="arch-node__tag">Presentation</span>
+                            <h6>MetroBalance.Web</h6>
+                            <p>MVC views, Razor pages and the browser front end. Calls the API over HTTP.</p>
+                        </div>
+                        <div class="arch-node">
+                            <span class="arch-node__tag">API</span>
+                            <h6>MetroBalance.Api</h6>
+                            <p>RESTful endpoints with Swagger UI, uniform responses and error handling.</p>
+                        </div>
+                        <div class="arch-node">
+                            <span class="arch-node__tag">Application</span>
+                            <h6>MetroBalance.Core</h6>
+                            <p>Domain models, DTO contracts, the provider abstraction and card validation.</p>
+                        </div>
+                        <div class="arch-node">
+                            <span class="arch-node__tag">Infrastructure</span>
+                            <h6>MetroBalance.Infrastructure</h6>
+                            <p>In-memory store, demo data factory and the simulated provider implementation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel p-4">
+                    <h2 class="h6 fw-bold mb-3">Technology</h2>
+                    <ul class="footer-links" style="color:var(--mb-muted);">
+                        <li>.NET 10 &mdash; ASP.NET Core MVC</li>
+                        <li>.NET 10 &mdash; ASP.NET Core Web API</li>
+                        <li>Bootstrap 5.3 (bundled locally)</li>
+                        <li>Swagger / OpenAPI</li>
+                        <li>HTML5, CSS3, vanilla JavaScript</li>
+                        <li>In-memory collections (no SQL, no database)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section pt-0">
+    <div class="container">
+        <div class="alert-mb alert-mb--warn">
+            <strong>Disclaimer:</strong> MetroBalance is an independent educational demo. It is not affiliated with
+            DMRC or the Delhi Metro Rail Corporation, it does not scrape any website, and the balances it shows are
+            simulated samples rather than real account data.
+        </div>
+    </div>
+</section>

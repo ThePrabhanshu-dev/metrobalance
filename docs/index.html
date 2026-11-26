@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MetroBalance — Proposal to Delhi Metro (DMRC)</title>
+<meta name="description" content="MetroBalance: a free, public, read-only Smart Card balance and transaction enquiry web service proposed to Delhi Metro Rail Corporation." />
+<style>
+  :root{
+    --navy:#0b1f3a; --navy2:#122c4f; --blue:#0d6efd; --cyan:#22d3ee; --green:#10b981;
+    --amber:#f59e0b; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f5f7fb;
+    --slide-w:1200px; --slide-h:700px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:radial-gradient(900px 500px at 85% -10%, rgba(34,211,238,.14), transparent 60%),
+               radial-gradient(700px 400px at 5% 105%, rgba(13,110,253,.16), transparent 60%),
+               #060d1a;
+    color:#e6edf6;
+    font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow:hidden;
+  }
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));z-index:60;transition:width .35s ease;}
+  .stage{position:fixed;inset:0;display:grid;place-items:center;padding:16px 16px 84px;}
+  .slide{
+    position:absolute;width:var(--slide-w);height:var(--slide-h);
+    border-radius:22px;overflow:hidden;display:none;
+    transform-origin:center center;
+    box-shadow:0 40px 90px rgba(0,0,0,.55);
+    background:linear-gradient(135deg,var(--navy) 0%,#14315a 55%,#0a1c34 100%);
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .slide.is-active{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px) scale(.995);}to{opacity:1;transform:none;}}
+  .slide--light{background:linear-gradient(180deg,#ffffff,#f2f6fc);color:var(--ink);border-color:rgba(15,23,42,.08);}
+  .pad{padding:52px 62px;height:100%;display:flex;flex-direction:column;}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.35);
+    color:#a5f3fc;border-radius:999px;padding:.3rem .9rem;font-size:.78rem;font-weight:600;letter-spacing:.04em;width:fit-content;}
+  .slide--light .eyebrow{background:rgba(13,110,253,.08);border-color:rgba(13,110,253,.2);color:#0b4bb3;}
+  h1{font-size:56px;line-height:1.06;margin:.7rem 0 1rem;font-weight:800;letter-spacing:-.02em;}
+  h2{font-size:38px;line-height:1.12;margin:.5rem 0 .8rem;font-weight:800;letter-spacing:-.015em;}
+  h3{font-size:21px;font-weight:700;margin:0 0 .4rem;}
+  p{font-size:18px;line-height:1.55;margin:0 0 1rem;}
+  .muted{color:rgba(230,237,246,.72);}
+  .slide--light .muted{color:var(--muted);}
+  .lead{font-size:22px;line-height:1.5;max-width:56rem;}
+  .grad{background:linear-gradient(90deg,#67e8f9,#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .row{display:flex;gap:20px;}
+  .grow{flex:1;}
+  .card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:20px 22px;}
+  .slide--light .card{background:#fff;border:1px solid var(--line);box-shadow:0 8px 24px rgba(11,31,58,.07);}
+  .card h3{font-size:19px;}
+  .card p,.card li{font-size:15.5px;line-height:1.5;color:rgba(230,237,246,.78);}
+  .slide--light .card p,.slide--light .card li{color:#475569;}
+  ul{margin:.2rem 0 0;padding-left:1.15rem;}
+  li{margin-bottom:.4rem;}
+  .stat-row{display:flex;gap:18px;}
+  .stat{flex:1;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:16px 18px;}
+  .slide--light .stat{background:#fff;border:1px solid var(--line);}
+  .stat .v{font-size:28px;font-weight:800;}
+  .stat .k{font-size:13px;color:rgba(230,237,246,.65);margin-top:2px;}
+  .slide--light .stat .k{color:var(--muted);}
+  .tag{display:inline-block;background:rgba(16,185,129,.16);border:1px solid rgba(16,185,129,.4);color:#6ee7b7;
+    border-radius:999px;padding:.18rem .65rem;font-size:11.5px;font-weight:700;letter-spacing:.05em;}
+  .tag--amber{background:rgba(245,158,11,.16);border-color:rgba(245,158,11,.45);color:#fcd34d;}
+  .tag--blue{background:rgba(13,110,253,.18);border-color:rgba(96,165,250,.45);color:#93c5fd;}
+  .foot{position:absolute;left:62px;right:62px;bottom:22px;display:flex;justify-content:space-between;
+    font-size:12.5px;color:rgba(230,237,246,.5);}
+  .slide--light .foot{color:#94a3b8;}
+  .quote{border-left:4px solid var(--cyan);padding:14px 20px;background:rgba(34,211,238,.09);border-radius:0 12px 12px 0;font-size:18px;}
+  .slide--light .quote{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);color:#334155;}
+  .quote cite{display:block;font-style:normal;font-size:13.5px;color:rgba(230,237,246,.6);margin-top:8px;}
+  .slide--light .quote cite{color:var(--muted);}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  th{text-align:left;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(230,237,246,.55);
+    padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.14);}
+  .slide--light th{color:#94a3b8;border-bottom-color:var(--line);}
+  td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .slide--light td{border-bottom-color:#eef2f7;color:#334155;}
+  code{font-family:Consolas,"SF Mono",Menlo,monospace;font-size:13.5px;background:rgba(255,255,255,.08);
+    padding:2px 6px;border-radius:6px;color:#a5f3fc;}
+  .slide--light code{background:#eef4ff;color:#0b4bb3;}
+  .layers{display:flex;flex-direction:column;gap:9px;}
+  .layer{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);
+    border-radius:12px;padding:11px 16px;}
+  .layer .k{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#a5f3fc;width:105px;flex:none;}
+  .layer .n{font-weight:700;font-size:16.5px;width:225px;flex:none;}
+  .layer .d{font-size:14.5px;color:rgba(230,237,246,.7);}
+  .slide--light .layer{background:#fff;border:1px solid var(--line);}
+  .slide--light .layer .d{color:#64748b;}
+  .arrows{text-align:center;color:rgba(230,237,246,.3);font-size:13px;line-height:.6;}
+  .phone{background:#0b1626;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.45);}
+  .phone .bar{height:9px;border-radius:6px;background:rgba(255,255,255,.10);margin-bottom:12px;}
+  .phone .bal{font-size:32px;font-weight:800;color:#fff;}
+  .phone .lab{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(230,237,246,.55);}
+  .phone .rowl{display:flex;justify-content:space-between;font-size:12px;color:rgba(230,237,246,.65);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.25rem .7rem;font-size:12.5px;color:rgba(230,237,246,.8);}
+  .slide--light .chip{border-color:var(--line);color:#475569;background:#fff;}
+  .nav{position:fixed;left:0;right:0;bottom:0;height:62px;display:flex;align-items:center;gap:12px;
+    padding:0 20px;background:rgba(4,10,20,.75);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.08);z-index:50;}
+  .btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#e6edf6;border-radius:10px;
+    padding:.4rem .8rem;font-size:13px;cursor:pointer;font-family:inherit;}
+  .btn:hover{background:rgba(34,211,238,.16);border-color:var(--cyan);}
+  .dots{display:flex;gap:7px;flex:1;justify-content:center;flex-wrap:wrap;}
+  .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;border:none;padding:0;}
+  .dot.is-active{background:var(--cyan);transform:scale(1.25);}
+  .counter{font-size:13px;color:rgba(230,237,246,.65);min-width:64px;text-align:right;font-variant-numeric:tabular-nums;}
+  .hint{position:fixed;right:18px;top:14px;font-size:12px;color:rgba(230,237,246,.45);z-index:50;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .grid3{display:grid;grid-columns:repeat(3,1fr);gap:18px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .kpi{background:linear-gradient(135deg,rgba(13,110,253,.22),rgba(34,211,238,.12));border:1px solid rgba(96,165,250,.30);
+    border-radius:16px;padding:18px;}
+  .kpi .v{font-size:28px;font-weight:800;}
+  .kpi .k{font-size:13px;color:rgba(230,237,246,.7);margin-top:4px;line-height:1.4;}
+  .slide--light .kpi{background:linear-gradient(135deg,#eff6ff,#ecfeff);border-color:#cfe3ff;}
+  .slide--light .kpi .k{color:#475569;}
+  @media print{
+    body{background:#fff;overflow:visible;}
+    .stage{position:static;display:block;padding:0;}
+    .nav,.hint,#progress{display:none !important;}
+    .slide{display:block !important;position:relative;page-break-after:always;break-after:page;transform:none !important;
+      width:var(--slide-w);height:var(--slide-h);box-shadow:none;border-radius:0;}
+    @page{size:1200px 700px;margin:0;}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="hint">← → navigate · F fullscreen · P print / PDF</div>
+<div class="stage" id="stage">
+
+  <!-- 1 — Cover -->
+  <section class="slide is-active">
+    <div class="pad" style="justify-content:center;">
+      <span class="eyebrow">Proposal to Delhi Metro Rail Corporation</span>
+      <h1>Metro<span class="grad">Balance</span></h1>
+      <p class="lead">A free, public, read-only web service that lets any rider check their
+        <strong>Smart Card balance</strong>, recharge history and journey ledger — in seconds, on any phone,
+        without a login and without an app.</p>
+      <div class="stat-row" style="margin-top:1.4rem;max-width:900px;">
+        <div class="stat"><div class="v">&#8377;</div><div class="k">Balance in INR, to the paisa</div></div>
+        <div class="stat"><div class="v">0</div><div class="k">Logins required</div></div>
+        <div class="stat"><div class="v">0</div><div class="k">Paid services used</div></div>
+        <div class="stat"><div class="v">100%</div><div class="k">Open-source stack</div></div>
+      </div>
+      <div class="foot"><span>MetroBalance — working demonstration build</span><span>Prepared for DMRC · 2026</span></div>
+    </div>
+  </section>
+
+  <!-- 2 — Problem -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">The problem</span>
+      <h2>Riders cannot see their balance without touching a machine</h2>
+      <div class="row grow" style="margin-top:.3rem;align-items:center;">
+        <div class="grow">
+          <div class="quote">“No, you cannot check your card balance online.”
+            <cite>— DMRC Smart Card FAQ (dmrcsmartcard.com)</cite></div>
+          <ul class="muted" style="font-size:16.5px;margin-top:1rem;">
+            <li>To know “how much is left”, a rider must find an <strong>Add Value Machine</strong> or a staffed counter.</li>
+            <li>Top-ups stay invisible until a gate rejects the journey — the fare deduction is the only feedback.</li>
+            <li>Students, senior citizens, tourists and daily commuters cannot reconcile top-ups against journeys themselves.</li>
+            <li>Every such query becomes staff time at a counter or a call-centre interaction.</li>
+          </ul>
+        </div>
+        <div style="width:380px;flex:none;">
+          <div class="grid2" style="gap:14px;">
+            <div class="kpi"><div class="v">6</div><div class="k">Metro lines, one Smart Card</div></div>
+            <div class="kpi"><div class="v">250+</div><div class="k">Stations across the network</div></div>
+            <div class="kpi"><div class="v">24×7</div><div class="k">When riders actually travel</div></div>
+            <div class="kpi"><div class="v">0</div><div class="k">Online balance channels today</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>2</span></div>
+    </div>
+  </section>
+
+  <!-- 3 — Proposal -->
+  <section class="slide slide--light">
+    <div class="pad">
+      <span class="eyebrow">The proposal</span>
+      <h2>One public enquiry surface for every Smart Card</h2>
+      <p class="muted">MetroBalance turns card enquiries into a self-service web experience — and is architected so that
+        DMRC can plug in an authorised data source later without rewriting a single line of the UI.</p>
+      <div class="grid3" style="margin-top:.4rem;">
+        <div class="card">
+          <span class="tag">Consumer</span>
+          <h3 style="margin-top:12px;">Balance in one tap</h3>
+          <p>Type the card number, read the available balance in rupees and the timestamp of the last update. No
+            registration, no OTP, no app install.</p>
+        </div>
+        <div class="card">
+          <span class="tag tag--blue">Consumer</span>
+          <h3 style="margin-top:12px;">Full statement</h3>
+          <p>Recharge history with amount, channel and mode — and every journey fare deduction with stations, line and
+            fare slab, so a rider can reconcile their card themselves.</p>
+        </div>
+        <div class="card">
+          <span class="tag tag--amber">DMRC-facing</span>
+          <h3 style="margin-top:12px;">Ready for an authorised feed</h3>
+          <p>A single <code>IMetroCardProvider</code> seam isolates the data source. Swap the demo provider for an
+            authorised DMRC service and every screen keeps working.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:.8rem;padding:18px 22px;">
+        <h3 style="font-size:17px;">What we are <u>not</u> asking for</h3>
+        <p style="margin:0;">No exclusive rights, no paid licence, no per-transaction fee, no hardware, no change to
+          the card, no new app for riders to install, and no data scraped from any website.</p>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>3</span></div>
+    </div>
+  </section>
+
+  <!-- 4 — Product -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">Product — already built</span>
+      <h2>What riders actually see</h2>
+      <div class="row grow" style="margin-top:.3rem;align-items:center;">
+        <div class="phone" style="width:270px;flex:none;">
+          <div class="lab">Available balance — demo data</div>
+          <div class="bal">&#8377; 2,725.50</div>
+          <div class="rowl"><span>Card</span><span>DMRC-DEMO-1001</span></div>
+          <div class="rowl"><span>Holder</span><span>Aarav Sharma</span></div>
+          <div class="rowl"><span>Card type</span><span>Silver · Active</span></div>
+          <div class="rowl" style="border:none;"><span>Last updated</span><span>26 Nov 2026, 08:12</span></div>
+          <div class="chips" style="margin-top:12px;">
+            <span class="chip">Blue</span><span class="chip">Yellow</span><span class="chip">Red</span>
+            <span class="chip">Violet</span><span class="chip">Pink</span><span class="chip">Green</span>
+          </div>
+        </div>
+        <div class="grow">
+          <div class="grid2" style="gap:16px;">
+            <div class="card"><h3>Balance only</h3><p>A compact, mobile-first card that answers one question: how much
+              money is left, and when was it last updated.</p></div>
+            <div class="card"><h3>Full statement</h3><p>Balance, holder, card status, total recharged, every top-up and
+              every fare deduction in one screen.</p></div>
+            <div class="card"><h3>Honest with real cards</h3><p>For a real card number, the app never invents a
+              balance — it states DMRC's policy and shows the official AVM / counter / FAQ channels.</p></div>
+            <div class="card"><h3>Enterprise ready</h3><p>Swagger-documented REST API, uniform response envelope,
+              consistent error codes (400 / 404 / 409) and anti-forgery protection on form posts.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance — running application</span><span>4</span></div>
+    </div>
+  </section>
+
+  <!-- 5 — Live demo -->
+  <section class="slide slide--light">
+    <div class="pad">
+      <span class="eyebrow">Live demo</span>
+      <h2>See it working — in under a minute</h2>
+      <div class="row grow" style="margin-top:.3rem;align-items:center;">
+        <div class="grow">
+          <div class="card" style="margin-bottom:14px;">
+            <h3>1 · Balance only</h3>
+            <p>Enter <code>DMRC-DEMO-1001</code> → <strong>Balance only</strong> → <em>Check balance</em>.
+              The app returns the balance, card type, status and last-update time.</p>
+          </div>
+          <div class="card" style="margin-bottom:14px;">
+            <h3>2 · Full statement</h3>
+            <p>Switch to <strong>Full statement</strong> to see recharge history and the journey ledger with
+              stations, line and fare.</p>
+          </div>
+          <div class="card">
+            <h3>3 · A real card number</h3>
+            <p>Enter a real-format card number → the app shows the policy note and the official DMRC channels.
+              <strong>Never a fabricated figure.</strong></p>
+          </div>
+        </div>
+        <div style="width:400px;flex:none;">
+          <div class="card" style="background:linear-gradient(135deg,#eff6ff,#ecfeff);border-color:#cfe3ff;">
+            <h3>Try it yourself</h3>
+            <p style="margin-bottom:10px;">The live build, the API and the Swagger docs are one click away:</p>
+            <ul>
+              <li>Live web app — <code>/</code></li>
+              <li>Balance-only API — <code>/api/cards/{cardNumber}/amount</code></li>
+              <li>Statement API — <code>/api/cards/{cardNumber}/statement</code></li>
+              <li>Interactive API docs — <code>/swagger</code></li>
+              <li>Real-card guide — <code>/guide</code></li>
+            </ul>
+            <p style="margin-top:12px;margin-bottom:0;font-size:13.5px;">Hosted from the project repository, these paths
+              resolve automatically for the recipient.</p>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3>Also available</h3>
+            <p style="margin:0;">A PDF of this deck can be exported with the <em>P</em> key, and the full source code is
+              in the accompanying repository.</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>5</span></div>
+    </div>
+  </section>
+
+  <!-- 6 — Architecture -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">Architecture</span>
+      <h2>Clean layers, one replaceable seam</h2>
+      <div class="row grow" style="margin-top:.3rem;gap:26px;align-items:center;">
+        <div class="grow">
+          <div class="layers">
+            <div class="layer"><div class="k">Presentation</div><div class="n">MetroBalance.Web</div>
+              <div class="d">ASP.NET Core MVC · Bootstrap 5 · responsive front end · Razor views</div></div>
+            <div class="arrows">▲ ▼</div>
+            <div class="layer"><div class="k">API</div><div class="n">MetroBalance.Api</div>
+              <div class="d">REST endpoints · Swagger / OpenAPI · uniform error envelope</div></div>
+            <div class="arrows">▲ ▼</div>
+            <div class="layer"><div class="k">Application</div><div class="n">MetroBalance.Core</div>
+              <div class="d">Domain models · DTO contracts · validation · provider interface</div></div>
+            <div class="arrows">▲ ▼</div>
+            <div class="layer"><div class="k">Infrastructure</div><div class="n">MetroBalance.Infrastructure</div>
+              <div class="d">MockMetroCardProvider · in-memory store · demo data factory</div></div>
+          </div>
+        </div>
+        <div style="width:380px;flex:none;">
+          <div class="card" style="border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.10);margin-bottom:14px;">
+            <h3>The DMRC seam</h3>
+            <p style="margin-bottom:8px;"><code>IMetroCardProvider</code> is the only door to card data. Today it is
+              served by an in-memory demo provider.</p>
+            <p style="margin:0;">When an authorised feed is granted, we implement the same interface, register it in
+              the DI container and switch one configuration flag — no controller, view or service changes.</p>
+          </div>
+          <div class="card">
+            <h3>Deliberate design choices</h3>
+            <ul>
+              <li><strong>No database</strong> — in-memory lists &amp; dictionaries; nothing to breach.</li>
+              <li><strong>No scraping</strong> — nothing is read from any DMRC or third-party site.</li>
+              <li><strong>No invented data</strong> — every response is flagged as demo or real.</li>
+              <li><strong>No paid dependencies</strong> — .NET 10, Bootstrap 5, Swagger. All free.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>6</span></div>
+    </div>
+  </section>
+
+  <!-- 7 — API -->
+  <section class="slide slide--light">
+    <div class="pad">
+      <span class="eyebrow">Integration surface</span>
+      <h2>A small, stable API — ready for a DMRC feed</h2>
+      <div class="row grow" style="margin-top:.2rem;gap:24px;align-items:center;">
+        <div class="grow">
+          <table>
+            <thead><tr><th>Endpoint</th><th>Purpose</th><th style="width:100px;">Status</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET /api/cards/{card}/balance</code></td><td>Available balance + last update</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/{card}/recharges</code></td><td>Recharge / top-up history</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/{card}/transactions</code></td><td>Journey fare deductions</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/{card}/statement</code></td><td>Everything, in one payload</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/{card}/enquiry</code></td><td>Card status + guidance for real cards</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/{card}/amount</code></td><td>Balance-only answer (₹ value or null)</td><td><span class="tag">Live</span></td></tr>
+              <tr><td><code>GET /api/cards/demo-numbers</code></td><td>Sample card numbers for evaluation</td><td><span class="tag">Live</span></td></tr>
+            </tbody>
+          </table>
+          <p class="muted" style="font-size:14.5px;margin-top:12px;">Uniform envelope:
+            <code>{ success, message, data, errorCode, timestampUtc }</code> · HTTP <code>400</code> invalid card,
+            <code>404</code> unknown card, <code>409</code> blocked or expired card.</p>
+        </div>
+        <div style="width:340px;flex:none;">
+          <div class="card">
+            <h3>Contract stability</h3>
+            <p>These endpoints and their JSON shape are the integration contract. An authorised DMRC service can be added
+              behind them, so any consumer written against this API keeps working unchanged.</p>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3>White-label ready</h3>
+            <p>The front end can be re-skinned to DMRC branding and embedded on the official website as a self-service
+              widget — subject to DMRC's branding approval.</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>7</span></div>
+    </div>
+  </section>
+
+  <!-- 8 — Trust -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">Trust &amp; compliance</span>
+      <h2>Privacy and safety are designed in, not bolted on</h2>
+      <div class="grid4" style="margin-top:.4rem;">
+        <div class="card"><h3>No card data stored</h3><p>The current build holds no card data at all. A production build
+          would be stateless per request.</p></div>
+        <div class="card"><h3>No personal data</h3><p>Only the card number typed by the rider is processed — no name, no
+          phone number, no OTP, no account.</p></div>
+        <div class="card"><h3>No scraping</h3><p>We never read or replicate data from DMRC, partner or any other
+          website.</p></div>
+        <div class="card"><h3>Transparent labelling</h3><p>Every response states whether it is demo or live, and a real
+          card never carries a fabricated amount.</p></div>
+      </div>
+      <div class="card" style="margin-top:.9rem;">
+        <h3>Proposed controls for a DMRC production deployment</h3>
+        <ul style="columns:2;column-gap:30px;">
+          <li>Request rate-limiting and per-IP throttling on the enquiry endpoints</li>
+          <li>TLS-only, HSTS, standard security headers and a strict Content-Security-Policy</li>
+          <li>Anti-forgery tokens on form posts and an audit trail of enquiry requests</li>
+          <li>No card identifiers in logs; truncation and hashing where retention is required</li>
+          <li>Data-minimisation aligned with the Digital Personal Data Protection Act, 2023</li>
+          <li>DMRC-hosted or DMRC-approved hosting, with an agreed retention and deletion policy</li>
+        </ul>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>8</span></div>
+    </div>
+  </section>
+
+  <!-- 9 — Integration options -->
+  <section class="slide slide--light">
+    <div class="pad">
+      <span class="eyebrow">How we integrate</span>
+      <h2>Four paths to live data — we need only one</h2>
+      <div class="grid2" style="margin-top:.4rem;gap:16px;">
+        <div class="card"><span class="tag">Preferred</span><h3 style="margin-top:10px;">A · Authorised read API</h3>
+          <p>DMRC (or its nominated processor) exposes a read-only balance &amp; transaction endpoint over mTLS or
+            signed requests. MetroBalance becomes a pure consumer. Highest control, cleanest audit trail.</p></div>
+        <div class="card"><span class="tag tag--blue">Low effort</span><h3 style="margin-top:10px;">B · Settlement / ledger feed</h3>
+          <p>DMRC's back-office already records top-ups and fare deductions. A nightly or near-real-time export of that
+            ledger lets the service answer “what was left” without touching the card or the station network.</p></div>
+        <div class="card"><span class="tag tag--blue">Zero backend</span><h3 style="margin-top:10px;">C · AVM / kiosk deep link</h3>
+          <p>A rider taps a QR code or NFC tag at the machine; the browser reads the balance the machine already
+            displays and the app simply renders it. No backend integration at all.</p></div>
+        <div class="card"><span class="tag tag--amber">Launch now</span><h3 style="margin-top:10px;">D · Guided self-service</h3>
+          <p>From day one, DMRC's own FAQ channels are surfaced inside the app: AVM locations, counter guidance and
+            recharge instructions in the rider's language, with no live data required.</p></div>
+      </div>
+      <p class="muted" style="font-size:14.5px;margin-top:.9rem;">Options A and B are server-side and fit the existing
+        architecture exactly. Options C and D ship value immediately while A is being formalised. We are happy to start
+        with D and pilot A.</p>
+      <div class="foot"><span>MetroBalance</span><span>9</span></div>
+    </div>
+  </section>
+
+  <!-- 10 — Honesty -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">Honesty first</span>
+      <h2>What we will never do</h2>
+      <div class="row grow" style="margin-top:.3rem;gap:22px;align-items:center;">
+        <div class="grow">
+          <ul style="font-size:17px;">
+            <li><strong>Never scrape</strong> DMRC, dmrcsmartcard.com or any partner site to build a balance figure.</li>
+            <li><strong>Never invent</strong> a balance, a transaction or an endpoint and present it as real.</li>
+            <li><strong>Never bypass</strong> card security, station systems or DMRC access controls.</li>
+            <li><strong>Never lock riders in</strong> — no login wall, no app install, no data held about users.</li>
+            <li><strong>Never use DMRC branding</strong> or the DMRC name without written permission.</li>
+          </ul>
+          <div class="quote" style="margin-top:1.1rem;">The application is honest by default: for a real card it shows
+            DMRC's published position and the official channels — because that is the truth today.
+            <cite>— This is also why the architecture is ready for an authorised feed the day DMRC grants one.</cite></div>
+        </div>
+        <div style="width:360px;flex:none;">
+          <div class="card">
+            <h3>Governance</h3>
+            <ul>
+              <li>DMRC approves branding, wording and placement before anything goes live.</li>
+              <li>Written agreement on data scope, retention and audit before the feed is enabled.</li>
+              <li>DMRC can require the service to be hosted inside its own environment.</li>
+              <li>Public disclosure that the service is a third-party initiative where DMRC wishes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>10</span></div>
+    </div>
+  </section>
+
+  <!-- 11 — Rollout -->
+  <section class="slide slide--light">
+    <div class="pad">
+      <span class="eyebrow">Delivery</span>
+      <h2>A staged rollout that needs no budget up front</h2>
+      <table style="margin-top:.5rem;">
+        <thead><tr><th style="width:120px;">Phase</th><th style="width:100px;">Duration</th><th>Outcome</th><th style="width:200px;">Needs from DMRC</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Phase 0</strong><br /><span class="muted">Now</span></td><td>Live today</td>
+            <td>This demonstration build, the API and the deck; guided self-service content for real cards.</td>
+            <td>Nothing — just a look.</td></tr>
+          <tr><td><strong>Phase 1</strong><br /><span class="muted">UAT</span></td><td>4–6 weeks</td>
+            <td>Authorised sandbox feed (option A) or ledger export (option B); DMRC-branded pilot on a limited card range.</td>
+            <td>A named owner and a test credential or file.</td></tr>
+          <tr><td><strong>Phase 2</strong><br /><span class="muted">Pilot</span></td><td>6–8 weeks</td>
+            <td>DMRC-hosted environment, rate limits, monitoring and audit reporting; rider feedback loop.</td>
+            <td>Approval to pilot and to publish.</td></tr>
+          <tr><td><strong>Phase 3</strong><br /><span class="muted">PRD</span></td><td>8–12 weeks</td>
+            <td>Production release: full integration, SLA, support and a documented run-book.</td>
+            <td>Production access and sign-off.</td></tr>
+        </tbody>
+      </table>
+      <div class="grid3" style="margin-top:.9rem;">
+        <div class="kpi"><div class="v">No licence fee</div><div class="k">Open-source stack, no per-use cost</div></div>
+        <div class="kpi"><div class="v">No rider cost</div><div class="k">Free to the public, forever</div></div>
+        <div class="kpi"><div class="v">Reversible</div><div class="k">DMRC can host, fork or stop it at any time</div></div>
+      </div>
+      <div class="foot"><span>MetroBalance</span><span>11</span></div>
+    </div>
+  </section>
+
+  <!-- 12 — The ask -->
+  <section class="slide">
+    <div class="pad">
+      <span class="eyebrow">The ask</span>
+      <h2>What we are asking DMRC for</h2>
+      <div class="row grow" style="margin-top:.3rem;gap:22px;align-items:center;">
+        <div class="grow">
+          <div class="layers">
+            <div class="layer"><div class="k">Step 1</div><div class="n">A 30-minute review</div>
+              <div class="d">Run this deck, look at the live build, tell us what a rider should see.</div></div>
+            <div class="layer"><div class="k">Step 2</div><div class="n">A technical owner</div>
+              <div class="d">Someone in IT &amp; Automation or Customer Services to point us at the right data path.</div></div>
+            <div class="layer"><div class="k">Step 3</div><div class="n">A sandbox</div>
+              <div class="d">A test credential or a sample ledger extract, so we can prove the integration end to end.</div></div>
+            <div class="layer"><div class="k">Step 4</div><div class="n">A pilot</div>
+              <div class="d">Approval to run a limited, branded pilot — no public launch without your sign-off.</div></div>
+          </div>
+        </div>
+        <div style="width:360px;flex:none;">
+          <div class="card" style="border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.10);">
+            <h3>Why now</h3>
+            <p style="margin:0;">The application is already built, already honest and already architected for an
+              authorised feed. The only missing pieces are permission and a data path — both of which only DMRC can give.</p>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3>What we bring</h3>
+            <ul>
+              <li>The complete working application and its source code</li>
+              <li>The integration seam and the API contract</li>
+              <li>All future maintenance, hosting and support at no cost</li>
+              <li>Full transparency on branding and data usage</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><span>MetroBalance — thank you</span><span>12</span></div>
+    </div>
+  </section>
+
+  <!-- 13 — Close -->
+  <section class="slide slide--light">
+    <div class="pad" style="justify-content:center;text-align:center;align-items:center;">
+      <span class="eyebrow">Thank you</span>
+      <h1 style="font-size:48px;">Let's make the balance <span class="grad">visible</span>.</h1>
+      <p class="muted" style="max-width:44rem;margin-bottom:1.4rem;">
+        MetroBalance is a free, no-login, no-database demonstration of a Delhi Metro Smart Card enquiry service —
+        built in full, ready to integrate, and available for your evaluation today.</p>
+      <div class="chips" style="justify-content:center;margin-bottom:1.6rem;">
+        <span class="chip">Live app — <code>/</code></span>
+        <span class="chip">API docs — <code>/swagger</code></span>
+        <span class="chip">Real-card guide — <code>/guide</code></span>
+        <span class="chip">Source code — repository link in the e-mail</span>
+      </div>
+      <div class="card" style="max-width:740px;text-align:left;">
+        <p style="margin:0;font-size:15.5px;">
+          <strong>Presenter:</strong> Prabhanshu Shukla · <strong>Project:</strong> MetroBalance ·
+          <strong>Stack:</strong> .NET 10 ASP.NET Core MVC + Web API · Bootstrap 5 · Swagger ·
+          <strong>Cost:</strong> zero database, zero paid services.
+        </p>
+      </div>
+      <p class="muted" style="font-size:12.5px;margin-top:1.6rem;">Independent demonstration project. Not affiliated with,
+        endorsed by or connected to DMRC or Delhi Metro Rail Corporation. All balances shown in this deck are
+        simulated demo data.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button class="btn" id="prev">&#9664; Prev</button>
+  <button class="btn" id="next">Next &#9654;</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 13</span>
+  <button class="btn" id="fs">Fullscreen</button>
+  <button class="btn" id="pr">PDF</button>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsEl = document.getElementById('dots');
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+  var i = 0;
+
+  slides.forEach(function(s, idx){
+    var b = document.createElement('button');
+    b.className = 'dot' + (idx === 0 ? ' is-active' : '');
+    b.setAttribute('aria-label', 'Slide ' + (idx + 1));
+    b.addEventListener('click', function(){ go(idx); });
+    dotsEl.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(dotsEl.children);
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, idx){ s.classList.toggle('is-active', idx === i); });
+    dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === i); });
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    progress.style.width = (((i + 1) / slides.length) * 100) + '%';
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+    fit();
+  }
+
+  function fit(){
+    var availW = window.innerWidth - 32;
+    var availH = window.innerHeight - 62 - 84;
+    var scale = Math.min(availW / 1200, availH / 700);
+    slides.forEach(function(s){ s.style.transform = 'scale(' + scale + ')'; });
+  }
+
+  document.getElementById('next').addEventListener('click', function(){ go(i + 1); });
+  document.getElementById('prev').addEventListener('click', function(){ go(i - 1); });
+  document.getElementById('fs').addEventListener('click', function(){
+    if (document.fullscreenElement) { document.exitFullscreen(); }
+    else { document.documentElement.requestFullscreen(); }
+  });
+  document.getElementById('pr').addEventListener('click', function(){ window.print(); });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(i - 1); }
+    else if (e.key === 'Home') { go(0); }
+    else if (e.key === 'End') { go(slides.length - 1); }
+    else if (e.key === 'f' || e.key === 'F') { document.getElementById('fs').click(); }
+    else if (e.key === 'p' || e.key === 'P') { window.print(); }
+  });
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){
+    var n = parseInt(location.hash.replace('#',''), 10);
+    if (!isNaN(n) && n - 1 !== i) { go(n - 1); }
+  });
+
+  var start = parseInt(location.hash.replace('#',''), 10);
+  go(isNaN(start) ? 0 : start - 1);
+  fit();
+})();
+</script>
+</body>
+</html>

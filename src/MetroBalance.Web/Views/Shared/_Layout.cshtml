@@ -1,0 +1,136 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MetroBalance - check your Delhi Metro Smart Card balance, recharge history and journey transactions instantly. Free, no login required." />
+    <title>@ViewData["Title"] | MetroBalance</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" href="~/favicon.ico" />
+</head>
+<body>
+    <div class="demo-ribbon">
+        <span class="demo-ribbon__dot"></span>
+        DEMO DATA &mdash; All balances and transactions on this site are simulated samples, not live DMRC records.
+    </div>
+
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-dark site-nav">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="16" rx="4"></rect>
+                            <path d="M3 9h18"></path>
+                            <path d="M7 15h4"></path>
+                            <circle cx="16.5" cy="15" r="1.4"></circle>
+                        </svg>
+                    </span>
+                    <span class="fw-bold fs-4">Metro<span class="brand-accent">Balance</span></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Card" ? "active" : "")" asp-controller="Card" asp-action="Index">Check Balance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Home" && currentAction == "Guide" ? "active" : "")" asp-controller="Home" asp-action="Guide">Real Card Guide</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Home" && currentAction == "Faq" ? "active" : "")" asp-controller="Home" asp-action="Faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentController == "Home" && currentAction == "Showcase" ? "active" : "")" asp-controller="Home" asp-action="Showcase">Showcase</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="nav-link nav-cta" href="/swagger">API Docs</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4 py-4">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="brand-mark brand-mark--footer" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="16" rx="4"></rect>
+                                <path d="M3 9h18"></path>
+                                <path d="M7 15h4"></path>
+                                <circle cx="16.5" cy="15" r="1.4"></circle>
+                            </svg>
+                        </span>
+                        <span class="fw-bold fs-5">Metro<span class="brand-accent">Balance</span></span>
+                    </div>
+                    <p class="footer-text">
+                        A free, open, demo-only companion for Delhi Metro Smart Card enquiries. Built with
+                        ASP.NET Core MVC &amp; Web API on 100% free and open-source technology.
+                    </p>
+                    <p class="footer-text footer-text--muted">
+                        Not affiliated with, endorsed by, or connected to DMRC or the Delhi Metro Rail Corporation.
+                    </p>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="footer-heading">Explore</h6>
+                    <ul class="footer-links">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Card" asp-action="Index">Check balance</a></li>
+                        <li><a asp-controller="Home" asp-action="Guide">Real card guide</a></li>
+                        <li><a asp-controller="Home" asp-action="Faq">FAQ</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-controller="Home" asp-action="Showcase">Showcase deck</a></li>
+                        <li><a href="/presentations/dmrc-proposal.html" target="_blank" rel="noopener">Presentation (PDF)</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="footer-heading">Developers</h6>
+                    <ul class="footer-links">
+                        <li><a href="/swagger">Swagger UI</a></li>
+                        <li><a href="/api/cards/demo-numbers">Demo card numbers</a></li>
+                        <li><a href="/api/cards/DMRC-DEMO-1001/statement">Sample statement API</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-2">
+                    <h6 class="footer-heading">Built with</h6>
+                    <ul class="footer-links">
+                        <li><a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener">.NET 10</a></li>
+                        <li><a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap 5</a></li>
+                        <li><a href="https://github.com/swagger-api/swagger-ui" target="_blank" rel="noopener">Swagger</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; @DateTime.Now.Year MetroBalance. Demo project &mdash; simulated data only.</span>
+                <span class="footer-bottom__right">Zero database &middot; Zero paid services &middot; No login required</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

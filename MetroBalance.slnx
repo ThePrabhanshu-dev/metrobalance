@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MetroBalance.Api/MetroBalance.Api.csproj" />
+    <Project Path="src/MetroBalance.ApiHost/MetroBalance.ApiHost.csproj" />
+    <Project Path="src/MetroBalance.Core/MetroBalance.Core.csproj" />
+    <Project Path="src/MetroBalance.Infrastructure/MetroBalance.Infrastructure.csproj" />
+    <Project Path="src/MetroBalance.Web/MetroBalance.Web.csproj" />
+  </Folder>
+</Solution>

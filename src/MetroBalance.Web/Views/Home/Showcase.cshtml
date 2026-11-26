@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Showcase";
+}
+
+<section class="showcase-hero">
+    <div class="container">
+        <span class="hero__eyebrow">Showcase · for DMRC &amp; stakeholders</span>
+        <h1 class="h2 fw-bold mt-3 mb-2">MetroBalance — proposal presentation</h1>
+        <p class="mb-0 opacity-75" style="max-width:52rem;">
+            A 13-slide deck that introduces the project to Delhi Metro Rail Corporation: the rider problem it solves,
+            the working product, the architecture, the integration options and the four-step ask.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+            <a class="btn btn-mb-primary" href="/presentations/dmrc-proposal.html" target="_blank" rel="noopener">
+                Open the deck in a new tab
+            </a>
+            <button type="button" class="btn btn-mb-outline" id="showcasePrint">Print / export to PDF</button>
+            <a class="btn btn-mb-outline" href="/Home/Guide">Real-card guide</a>
+            <a class="btn btn-mb-outline" href="/swagger">API docs</a>
+        </div>
+        <p class="small mt-3 mb-0 opacity-75">
+            Use <strong>&#8592;</strong> / <strong>&#8594;</strong> to move between slides, <strong>F</strong> for
+            fullscreen and <strong>P</strong> to export a PDF. The deck also works offline as a single HTML file.
+        </p>
+    </div>
+</section>
+
+<section class="section section--tight">
+    <div class="container">
+        <div class="showcase-frame-wrap">
+            <iframe id="showcaseFrame" src="/presentations/dmrc-proposal.html" title="MetroBalance proposal deck"
+                    loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.getElementById('showcasePrint')?.addEventListener('click', function () {
+            const frame = document.getElementById('showcaseFrame');
+            try {
+                frame.contentWindow.focus();
+                frame.contentWindow.print();
+            } catch (e) {
+                window.open('/presentations/dmrc-proposal.html', '_blank');
+            }
+        });
+    </script>
+}
