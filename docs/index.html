@@ -115,6 +115,20 @@
     border-radius:16px;padding:18px;}
   .kpi .v{font-size:28px;font-weight:800;}
   .kpi .k{font-size:13px;color:rgba(230,237,246,.7);margin-top:4px;line-height:1.4;}
+  /* dense slides - tighter typography so nothing is clipped at 1200x700 */
+  .slide--dense .pad{padding:44px 54px;}
+  .slide--dense h2{font-size:31px;line-height:1.1;margin:.35rem 0 .5rem;}
+  .slide--dense p{font-size:16px;line-height:1.45;margin:0 0 .65rem;}
+  .slide--dense .card{padding:16px 18px;}
+  .slide--dense .card h3{font-size:17px;margin-bottom:.3rem;}
+  .slide--dense .card p,.slide--dense .card li{font-size:14px;line-height:1.42;}
+  .slide--dense .grid2,.slide--dense .grid3,.slide--dense .grid4{gap:14px;}
+  .slide--dense table{font-size:13.5px;}
+  .slide--dense th,.slide--dense td{padding:6px 10px;}
+  .slide--dense .kpi{padding:14px;}
+  .slide--dense .kpi .v{font-size:21px;}
+  .slide--dense .kpi .k{font-size:12.5px;}
+  .slide--dense .foot{left:54px;right:54px;}
   .slide--light .kpi{background:linear-gradient(135deg,#eff6ff,#ecfeff);border-color:#cfe3ff;}
   .slide--light .kpi .k{color:#475569;}
   @media print{
@@ -180,7 +194,7 @@
   </section>
 
   <!-- 3 — Proposal -->
-  <section class="slide slide--light">
+  <section class="slide slide--light slide--dense">
     <div class="pad">
       <span class="eyebrow">The proposal</span>
       <h2>One public enquiry surface for every Smart Card</h2>
@@ -473,7 +487,7 @@
   </section>
 
   <!-- 11 — Rollout -->
-  <section class="slide slide--light">
+  <section class="slide slide--light slide--dense">
     <div class="pad">
       <span class="eyebrow">Delivery</span>
       <h2>A staged rollout that needs no budget up front</h2>
